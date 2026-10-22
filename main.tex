@@ -1,0 +1,661 @@
+\documentclass[letterpaper, 10 pt, conference, twoside]{ieeetran}
+%this line out if you need a4paper
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
+\IEEEoverridecommandlockouts                              % This command is only needed if 
+                                                          % you want to use the \thanks command
+
+%\overrideIEEEmargins                                      % Needed to meet printer requirements.
+
+ 
+%\usepackage{graphics}
+\usepackage{stfloats}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx} 
+\usepackage{color}
+\usepackage{comment}
+\usepackage{amssymb,amsmath}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{bm}
+\usepackage{cancel}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{cite}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+\usepackage[absolute,overlay]{textpos} % For copyright
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+%\usepackage[top=2.54cm, bottom=2.1cm, left=1.91cm, right=1.91cm]{geometry}
+%geometry{top=1.5cm, bottom=1.52cm, left=1.69cm, right=1.69cm}
+
+
+
+\title{\LARGE \bf
+Reconfigurable Microspine-Enhanced Soft Grippers\\for Extraterrestrial and Martian Rock Grasping}
+
+%\author{,  and Salua Hamaza
+\author{Josh van't Sant$^{1}$, Fernando Ruiz$^{1}$, Sebastiaan de Vet$^{2}$ and Salua Hamaza$^{1}$
+\thanks{$^{1}$\href{https://www.tudelft.nl/en/ai/biomorphic-intelligence-lab}{Biomorphic Intelligence Lab}, Department of Control \& Operations, TU Delft Aerospace Engineering, The Netherlands. }
+\thanks{$^{2}$Planetary Exploration, Department of Space Engineering, TU Delft Aerospace Engineering, The Netherlands.}
+}%
+
+
+
+\begin{document}
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{abstract}
+
+Future planetary exploration platforms could extend the reach of Mars missions by accessing steep, fragmented, or otherwise unreachable terrains, but robust physical interaction with natural surfaces remains a key limitation for sample acquisition and safe touchdown. This paper presents a soft robotic gripper with modular, magnetic snap-fit soft microspine modules as a reconfigurable add-on end-effector compatible with aerial, rover-mounted, and legged platforms. The silicone backing of each module simultaneously improves distributed contact with rock asperities and enables tool-free swap of spine morphology, supporting both opportunistic rock grasping and terrain-adaptive landing from a single compliant structure. We experimentally evaluate multiple configurations — varying spine thickness, number, and spatial distribution — through qualitative grasping trials, grasp success rate, and static shear and pull-off force measurements across four Mars-relevant rock analogues. Results show that thick-spine configurations provide superior engagement on coarse-grained, high-asperity surfaces, while thin-spine configurations achieve higher success rates on fine-grained or smoother rocks. These relationships are used to propose a terrain-compatibility framework linking microspine morphology to Martian geological context, providing design guidelines for end-effectors reconfigurable to match surface conditions at a target exploration site.
+
+\textit{Index Terms:} Microspines, Soft Robotics, Planetary Robotics, Mars Exploration, Rock Grasping, Adaptive Landing.
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+
+The successful operation of NASA's \textit{Ingenuity} Mars Helicopter demonstrated that powered flight in the Martian atmosphere can provide a new mobility layer for planetary exploration \cite{Balaram2021Ingenuity}. Future Martian aerial robots could go beyond scouting and enable close-range inspection, opportunistic sampling, and local deployment of scientific payloads in terrains that are difficult or impossible for conventional rovers to access. However, extending aerial mobility toward physical interaction remains a major challenge. Tasks such as grasping rocks, stabilizing after touchdown, perching on irregular terrain, or retrieving geological samples require reliable contact with natural surfaces whose geometry, texture, and mechanical properties are only partially known before interaction.
+
+The final accident of \textit{Ingenuity} further highlighted the operational relevance of terrain interaction. NASA's investigation reported that the helicopter encountered a relatively featureless field of sand ripples, which provided insufficient visual texture for navigation and contributed to high horizontal velocity at touchdown, a hard impact, and subsequent rotor damage \cite{NASAIngenuityAccident2024}. Although this failure was primarily related to visual navigation and touchdown dynamics, it illustrates a broader limitation for future Martian aircraft: aerial robots must not only fly over difficult terrain, but also land, stabilize, and interact with it robustly. Adaptive landing gear and contact-aware end-effectors could therefore expand the operational envelope of future rotorcraft and multimodal explorers. 
+
+\begin{figure}
+\centering
+\includegraphics[width=.98\linewidth]{Picture1.png}
+\caption{ Modular soft gripper with press-fit silicone microspine modules as a reconfigurable add-on end-effector, supporting (left) rock grasping and (right) terrain-adaptive landing from the same compliant structure. Modules enable tool-free spine swap while improving distributed asperity contact.}
+\label{figure1}
+\vspace{-3mm}
+\end{figure}
+
+Microspine-based attachment offers a promising strategy for such interactions. Microspines are small hook-like elements that engage with surface asperities and generate mechanical interlocking rather than relying on suction, magnetic adhesion, or chemical adhesives. This makes them attractive for dusty, porous, rocky, or irregular environments where conventional attachment methods are ineffective. Previous work has shown that compliant arrays of microspines can support climbing and attachment on hard rough surfaces by distributing loads over multiple individual contacts \cite{Asbeck2006IJRR,Kim2005SpinybotII,Spenko2008RiSE}. The same principle has also been explored for space-relevant anchoring, gravity-independent mobility, asteroid capture, and deep-ocean geological sampling \cite{Parness2012Microspines,Parness2013RockClimbing,Merriam2016AsteroidCapture,Parness2017ARM,Backus2020Nautilus}.
+
+Soft robotic grippers provide complementary advantages for uncertain natural environments. Their compliance allows them to conform passively to irregular objects, distribute contact forces, and tolerate positioning errors during grasping \cite{Rus2015SoftRobotics,Shintake2018SoftGrippers}. These properties are particularly relevant for planetary manipulation, where rocks may vary widely in shape, size, roughness, and fragility. However, purely soft or friction-based grippers may struggle to generate sufficient attachment forces on hard, angular, dusty, or poorly envelopable rocks. Combining compliant gripper bodies with microspine arrays is therefore an attractive hybrid approach: the soft structure adapts to uncertain rock geometry, while the microspines provide local mechanical engagement with asperities. 
+
+Could also talk about lubrication. This soft gripper has the added advantage of not requiring any lubrication in the joints.
+
+For Mars, this interaction cannot be separated from geology. The Mars 2020 mission has shown that Jezero crater contains diverse igneous, sedimentary, and aqueously altered materials \cite{Farley2020Mars2020,Mangold2021JezeroDelta,Farley2022JezeroIgneous}. These materials present different surface textures, roughness scales, porosities, fracture patterns, and degrees of dust coverage, all of which can affect microspine engagement. A microspine configuration that performs well on a rough basaltic rock may not perform equally well on smoother sedimentary surfaces or dust-covered regolith. Consequently, the performance of a Martian gripper or landing pad should be studied not only as a function of the robotic mechanism, but also as a function of the target terrain.
+
+Despite the maturity of microspine attachment and soft gripping as separate research areas, their combined use for Martian rock grasping and terrain-adaptive landing remains insufficiently understood. Existing studies have demonstrated impressive attachment forces and field capabilities on rough surfaces, but they often focus on a specific mechanism, a limited set of test surfaces, or applications such as climbing, asteroid anchoring, or underwater sampling. Comparatively less attention has been paid to systematically relating microspine morphology, compliant gripper architecture, rock properties, and task-level suitability for Mars exploration.
+
+%% Also talk about space grease! Especially for aplications in picking up space rocks!How does shape, smoothness, dust, or grease change this gripper interaction. First an investigation and showing how potentially, this could be applied via a reconfigurable setup. 
+
+This paper investigates soft robotic grippers enhanced with reconfigurable microspine arrays for extraterrestrial rock grasping. We experimentally evaluate multiple gripper architectures and microspine configurations, varying parameters such as spine number, spatial distribution, orientation, and placement on compliant fingers or pads. The grippers are tested on Mars-relevant rock analogues selected to represent different surface textures and mechanical interaction regimes. Performance is quantified through pull-off force, shear resistance, grasp success rate, repeatability, and observed failure modes.
+
+In summary, our main contributions from this work are threefold. First, we present a set of soft gripper designs equipped with modular microspine arrays for grasping, sensing, and anchoring on irregular rocks. Second, we experimentally characterize how microspine distribution affect interaction performance across different Mars-relevant rock analogues. Third, we propose a preliminary terrain-compatibility framework that relates gripper design choices to potential Martian operational scenarios, including drone-assisted sampling  and anchoring on rocky terrain. This framework aims to support the future co-design of aerial robotic platforms, end-effectors, and target exploration sites for planetary missions requiring reliable physical interaction with natural terrain.
+
+
+\section{Related Work}
+
+\subsection{Microspine attachment for rough surfaces}
+
+Microspine attachment was originally developed as a bio-inspired strategy for climbing and anchoring on hard rough surfaces, exploiting small-scale asperities to generate mechanical interlocking rather than relying on adhesion or suction (Fig.~2). Early work by Asbeck et al.\ demonstrated compliant microspine arrays enabling attachment on concrete, brick, and stone~\cite{Asbeck2006IJRR}, while SpinyBot and RiSE showed how directional spines and compliant suspensions can be integrated into legged climbing robots~\cite{Kim2005SpinybotII,Spenko2008RiSE}. These works established two central principles: performance depends on the match between spine tip geometry and surface asperities, and compliant load sharing is necessary to distribute forces across multiple contacts. Spine-asperity interaction is inherently probabilistic where engagement depends on local asperity geometry, contact angle, hardness, and loading direction --- and stochastic models have formalised this behaviour, showing that roughness, friction, and suspension stiffness strongly influence achievable attachment force~\cite{Jiang2018StochasticSpines}. More recent underactuated microspine grippers improve adaptation to uncertain contact conditions~\cite{Li2023MicrospineGripper}, but most studies evaluate performance on a limited set of surfaces without linking design parameters to geological properties --- a link that is essential for Mars, where rock type, weathering state, and dust coverage directly determine whether spine engagement is possible.
+
+% Find work related to my sensors can work with this
+
+\subsection{Microspines in space and field robotics}
+
+Parness et al.\ developed gravity-independent mobility and drilling systems using hierarchical microspine arrays on vesicular basalt and a'a lava, demonstrating attachment under tangential, normal, and oblique loading~\cite{Parness2012Microspines}, later extended to rock-climbing robots and sample acquisition tools for low-gravity surfaces~\cite{Parness2013RockClimbing}. Microspine grasping has also been explored for asteroid capture~\cite{Merriam2016AsteroidCapture} and boulder anchoring in the context of the Asteroid Redirect Mission~\cite{Parness2017ARM}, where reliable attachment must be achieved without gravity-supplied preload --- a challenge shared by lightweight aerial or legged platforms operating on steep Martian terrain. In field robotics, the JPL-Nautilus gripper demonstrated effective grasping of irregular natural rocks for deep-ocean geological sampling~\cite{Backus2020Nautilus}, showing that microspines can perform outside idealised laboratory settings.
+Together, these works demonstrate the potential of microspines across diverse environments and gravity conditions. Nevertheless, most prior systems share a fundamental limitation: microspine morphology is fixed at design time and cannot be reconfigured when surface conditions change. This is acceptable for climbing concrete or anchoring to an asteroid, but insufficient for Mars exploration, where a single platform may encounter coarse-grained igneous outcrops such as the olivine-rich cumulates of Jezero's Seitah unit, fine-grained basaltic plains across Tharsis and Elysium, pyroclastic deposits inferred at Medusae Fossae, and fluvially rounded cobbles confirmed at Gale and Jezero's western delta --- each offering fundamentally different opportunities for spine engagement. Moreover, the relationship between microspine morphology and rock type has not been systematically mapped, yet for Mars such a mapping is necessary: it determines which spine configuration should be deployed at a given site, and whether reconfiguration between sites is warranted.
+
+\begin{figure*}
+\centering
+\includegraphics[width=.9\linewidth]{Picture7.png}
+\caption{Representative microspine-based systems from the literature, illustrating the breadth of applications: deep-ocean geological sampling (JPL Nautilus gripper~\cite{Backus2020Nautilus}), rough-surface climbing (RiSE climbing robot~\cite{Spenko2008RiSE} and SpinyBot II~\cite{Kim2005SpinybotII}), tree-climbing and compliant array attachment~\cite{compliant_microspine_arrays}, low-gravity anchoring and mobility (JPL microspine grippers and gravity-independent climbing robot~\cite{Parness2013RockClimbing}), asteroid capture~\cite{Merriam2016AsteroidCapture}, self-locking attachment on vertical surfaces~\cite{Panorel02112025}, and soft gripping for space exploration legged robots \cite{candalot2024}. Despite their diversity of application, all existing systems share a common limitation: microspine morphology --- including spine thickness, density, and distribution --- is fixed at design time and cannot be reconfigured for different surface types or operational scenarios. This constrains their adaptability to the geological variability expected in Martian exploration, where a single platform may encounter basaltic outcrops, coarse-grained igneous rocks, pyroclastic deposits, and fluvially rounded cobbles within the same mission.}
+\label{figure2}
+\vspace{-3mm}
+\end{figure*}
+
+
+
+\subsection{Soft grippers for unstructured and planetary manipulation}
+
+Soft robotic grippers enable passive adaptation to uncertain object shapes through compliant, deformable bodies~\cite{Rus2015SoftRobotics,Shintake2018SoftGrippers,ruiz_thermal,Ruiz2023Titan,ramirez2023bioinspired}, making them well suited for planetary manipulation where target rocks are irregular, partially occluded, and difficult to model before contact. However, purely soft grippers relying on friction or enveloping can fail on angular, dusty, or poorly envelopable rocks, and lightweight aerial platforms impose strict constraints on mass, preload, and allowable disturbance during contact. Hybrid grippers combining compliant bodies with microspine arrays address these limitations: the soft structure conforms to global rock geometry while spines engage local asperities, providing mechanical interlocking without relying solely on friction. Recent work has begun to explore this direction for space exploration legged robots, combining tendon-driven soft fingers with microspines for anchoring on uneven terrain~\cite{candalot2024}, but systematic guidelines for selecting microspine configuration and gripper compliance across different rock types and operational scenarios remain lacking.
+
+
+\subsection{Mars-relevant rock properties and terrain compatibility}
+
+Surface roughness, asperity scale, hardness, porosity, and dust coverage directly determine microspine engagement performance, and stochastic models have shown these parameters --- together with spine geometry and suspension stiffness --- are the primary determinants of achievable attachment force~\cite{Jiang2018StochasticModels}. However, most experimental studies use engineered or well-characterised surfaces such as concrete or brick, without linking surface properties to geological context.
+
+Mars presents a substantially more diverse environment. Jezero crater alone contains coarse-grained igneous cumulates, deltaic deposits, and aqueously altered rocks within a few kilometres~\cite{Farley2020Mars2020,Mangold2021JezeroDelta,Farley2022JezeroIgneous}, while orbital and rover observations confirm the global presence of basaltic plains, pyroclastic deposits, and fluvially transported clasts --- each offering different asperity scales and hardness. Rough fractured igneous rocks provide abundant engagement opportunities, whereas smooth fine-grained or dust-coated surfaces offer fewer asperities, and rounded cobbles present convex geometries that further limit spine contact.
+
+Despite this diversity, no prior work has systematically mapped microspine morphology to Martian rock types. Parness et al.\ demonstrated attachment on vesicular basalt and a'a lava~\cite{Parness2012Microspines} and the JPL-Nautilus gripper showed effective grasping on natural rocks~\cite{Backus2020Nautilus}, but neither addressed reconfigurability across surface types. This gap motivates the terrain-compatibility framework proposed in this paper.
+
+
+
+
+
+
+
+
+\section{System Concept and Design Space}
+
+The proposed system is a tendon-actuated soft robotic end-effector equipped with modular, interchangeable microspine arrays, designed as an add-on module for rock grasping and terrain-adaptive landing on Mars. The same compliant structure supports both use cases: in grasping mode, the three fingers close around a rock, conforming passively to its geometry while microspines engage surface asperities to resist pull-off and shear loads; in landing mode, the fingers act as compliant pads that anchor to rocky terrain by microspine interlocking, resisting shear forces and touchdown misalignment (Fig.~1).
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Picture5.png}
+\caption{Tendon-actuated soft gripper system. Left: CAD model showing the servomotor-driven reel, pulley system, tendon routing, and integrated whisker sensor. Right: experimental setup showing the carbon fibre rod, bearing, electronics, and holder for static force experiments, with Mars analogue rocks.}
+\label{figure3}
+\vspace{-3mm}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Picture4.png}
+\caption{Fabricated gripper prototype with three modular finger sections. Each section accepts a press-fit silicone module embedding variable-thickness microspine arrays, enabling tool-free spine configuration swap without replacing the compliant TPU structure.}
+\label{figure4}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Picture2.png}
+\caption{Microspine module fabrication. (top) Two-part PLA mold: lower half defines the silicone cavity and spine channels; upper half uses moldable putty to fix hooks at $\alpha=28$° prior to Ecoflex~0030 casting. (bottom) Fabricated modules press-fitted into the TPU finger, showing the silicone layer and two spine configurations: hook size~10 (0.85\,mm, thick-spine) and hook size~16 (0.55\,mm, thin-spine), both in a 4-spine arrangement.}
+\label{figure5}
+\vspace{-5mm}
+\end{figure}
+
+\subsection{Compliant Gripper Architecture}
+
+The gripper body consists of three symmetric TPU~95A fingers 
+arranged at 120° intervals around a central hub, each approximately 
+70\,mm in length, 35\,mm in width, and 8\,mm in thickness 
+(Fig.~3). TPU~95A was selected for its combination of 
+flexibility (Shore hardness 95A) and structural resilience, allowing 
+passive conformance to irregular rock geometry while maintaining 
+sufficient stiffness to transmit tendon forces. Three fingers were chosen as the minimal amount to ensure a fixed grasp while reducing the required weight and power from the actuators required for each finger as well as reducing the complexity of the control system.  Each finger incorporates a recessed cavity on its contact face into which a modular microspine section is inserted. Each module consists of a set of fishing hooks embedded in printed  part (thickness~$\approx$3\,mm), fabricated using the same TPU material. The TPU body  provides local compliance around each spine base, allowing individual spines to rotate slightly under load and distribute forces across multiple 
+engagement points. The modules snap into the finger cavity through a series of magnets that are press fit with adhesive on both the body and the module. These magnets allow for the modules to be easily replaced without modifying the compliant TPU structure, enabling 
+in-mission reconfiguration of spine morphology (Fig. 4). % Could also add here something about how in future, this would use an electromagnet for even easier adaptability.
+
+\subsubsection{Actuation and Tendon Routing}
+
+Finger closure is achieved through a tendon-driven mechanism 
+actuated by a DS950TW digital servo (stall torque 
+$\tau_s = 2.5$\,N$\cdot$m at 7.4\,V). The tendon is routed from 
+each finger through a low-friction PTFE guide channel along the carbon fiber 
+central shaft, and wound onto a 3D-printed PLA reel mounted on the 
+servo output shaft.
+
+The reel diameter was designed to balance tendon travel and output 
+force. For a required tendon travel of $\Delta l = 30$\,mm to 
+achieve full finger closure from the open position, and a reel 
+rotation of $\theta = 180°$ ($\pi$\,rad), the reel radius is:
+%
+\begin{equation}
+r_{reel} = \frac{\Delta l}{\theta} = \frac{30\,\text{mm}}{\pi} 
+\approx 9.5\,\text{mm}
+\end{equation}
+%
+yielding a reel diameter of $\approx$19\,mm. The corresponding 
+tendon force at the reel output is:
+%
+\begin{equation}
+F_{tendon} = \frac{\tau_s}{r_{reel}} = 
+\frac{2.5\,\text{N·m}}{0.0095\,\text{m}} \approx 263\,\text{N}
+\end{equation}
+%
+A single-stage pulley system redirects the tendon from the reel to 
+the finger routing channels, maintaining tendon alignment during 
+finger flexion. Friction losses in the routing are estimated at 
+$\eta \approx 0.85$, yielding an effective tendon force at the 
+finger tip of $F_{eff} \approx 224$\,N, which is more than 
+sufficient to close the fingers against rock contact resistance and 
+generate the preload required for microspine engagement. A whisker-type tactile sensor is integrated at the base of the 
+gripper hub, providing contact 
+detection and grasp monitoring. 
+
+\subsubsection{Sensors and Control}
+
+Each cavity holds a force sensing resistor that is calibrated in the midway point for the modules. This allows both for both push and pull on the modules to be sensed.
+
+Additionally, each digital servo motor actuating the fingers allows for a current readout that further shows engagement of the finger against a rock. 
+
+Finally, a whisker-type tactile sensor is integrated at the base of the gripper hub to provide initial contact detection and further grasp monitoring.
+
+\subsection{Microspine Array Design}
+
+Microspine engagement on rough surfaces is inherently probabilistic. 
+Following the stochastic model of Jiang et al.~\cite{Jiang2018StochasticModels}, 
+the expected attachment force of an array of $N$ spines can be 
+approximated as:
+%
+\begin{equation}
+F_{attach} = N \cdot P_{eng} \cdot \bar{f}_{spine}
+\end{equation}
+%
+where $P_{eng}$ is the probability of a single spine engaging a 
+suitable asperity, and $\bar{f}_{spine}$ is the mean force 
+contribution of an engaged spine. Both $P_{eng}$ and 
+$\bar{f}_{spine}$ depend on the relationship between spine tip 
+geometry and the surface roughness distribution. This motivates the 
+systematic evaluation of spine morphology across rock types with 
+different asperity scales.
+
+
+
+\subsubsection{Spine Geometry and Angle}
+
+The microspines are fabricated from commercially available fishing 
+hooks (sizes 6 through 22), embedded in an Ecoflex~0030 silicone 
+backing and integrated into the modular TPU sections 
+(Fig.~5). The hook geometry provides a curved 
+tip profile that facilitates asperity engagement under tangential 
+loading, with the spine axis oriented at an angle $\alpha$ relative 
+to the contact surface.
+
+The optimal spine angle for maximising engagement force while 
+avoiding premature disengagement has been studied in prior work. 
+Asbeck et al.~\cite{Asbeck2006IJRR} showed that spine angles 
+in the range $\alpha \in [20°, 35°]$ provide the best trade-off 
+between engagement probability and pull-off resistance on hard rough 
+surfaces. For a spine engaged on an asperity of half-angle $\beta$, 
+the condition for stable engagement without slip is:
+%
+\begin{equation}
+\alpha + \beta \leq 90° - \phi
+\end{equation}
+%
+where $\phi = \arctan(\mu)$ is the friction angle and $\mu$ is the 
+coefficient of friction between spine tip and rock. For typical 
+steel-on-rock friction ($\mu \approx 0.3$--$0.5$), this yields 
+stable engagement for $\alpha \approx 25°$--$30°$. In this work, 
+the spine angle is fixed at $\alpha = 28°$ across all 
+configurations, consistent with this range, while spine thickness 
+and density are varied as the primary design parameters.
+
+\subsubsection{Spine Thickness and Hook Size Selection}
+
+Hook sizes from 6 to 22 were evaluated in preliminary trials, 
+spanning wire diameters from approximately 1.2\,mm (size~6) to 
+0.35\,mm (size~22). Very large hooks (sizes 6--8, $d > 1.0$\,mm) 
+were found to be excessively rigid, preventing the compliant backing 
+from distributing load across multiple spines and resulting in 
+single-point overloading and early failure. Very small hooks 
+(sizes 18--22, $d < 0.45$\,mm) bent plastically under moderate 
+loads without engaging asperities, particularly on hard igneous 
+surfaces. The two configurations selected for systematic evaluation 
+represent the practical extremes of the effective range:
+
+\begin{itemize}
+    \item \textbf{Thick-spine configuration} (hook size~10, 
+    $d = 0.85$\,mm): intended for coarse-grained, high-asperity 
+    surfaces where larger spine tips can engage deep, mechanically 
+    stable features.
+    \item \textbf{Thin-spine configuration} (hook size~16, 
+    $d = 0.55$\,mm): intended for fine-grained or smoother surfaces 
+    where smaller tips are required to engage shallow asperities 
+    without overloading them.
+\end{itemize}
+
+The bending stiffness of a spine under transverse load scales with 
+the second moment of area of the wire cross-section:
+%
+\begin{equation}
+EI = E \cdot \frac{\pi d^4}{64}
+\end{equation}
+%
+For steel ($E = 200$\,GPa), the ratio of bending stiffness between 
+the thick and thin configurations is:
+%
+\begin{equation}
+\frac{EI_{10}}{EI_{16}} = \left(\frac{d_{10}}{d_{16}}\right)^4 = 
+\left(\frac{0.85}{0.55}\right)^4 \approx 5.7
+\end{equation}
+%
+The thick spine is therefore approximately 5.7$\times$ stiffer than 
+the thin spine, which explains the qualitatively different 
+engagement behaviour observed across rock types with different 
+asperity scales.
+
+\subsubsection{Spine Density}
+
+Two densities were evaluated per module: 4-spine and 2-spine 
+arrangements. The 4-spine configuration increases engagement 
+points per unit area, advantageous on surfaces with sparse 
+asperities; the 2-spine configuration reduces inter-spine 
+mechanical interference, allowing each spine greater freedom 
+to load an asperity independently. For a total preload $F_N$ 
+distributed over $N_s$ spines, the mean force per spine is 
+$f_n = F_N / N_s$: reducing $N_s$ improves engagement depth 
+on hard surfaces but raises the risk of overload or asperity 
+fracture on weaker materials such as pyroclastic rocks.
+
+%The gripper architectures are intentionally modular, allowing the same compliant body to be tested with different spine arrays. This enables a direct comparison between microspine configurations while reducing confounding effects from large changes in the gripper body. The modular design also reflects a possible future mission implementation, where end-effectors could be selected or optimized according to the expected terrain or sampling target.
+
+\subsection{Fabrication}
+
+\subsubsection{Compliant Finger and Gripper Body}
+
+The three gripper fingers and central hub were fabricated using 
+Fused Deposition Modelling (FDM) with TPU~95A filament on a 
+Prusa~i3~MK3S+ printer (layer height 0.2\,mm, gyroid infill 40\%, 
+3 perimeter walls, nozzle 230°C, bed 45°C, print speed 25\,mm/s). 
+Each finger is approximately 70\,mm in length, 35\,mm in width, 
+and 8\,mm in thickness, and incorporates a recessed cavity 
+($32 \times 22 \times 4$\,mm) on its contact face to accept the 
+interchangeable microspine modules by press-fit. The central hub 
+was printed in PLA (0.2\,mm layer height, 60\% infill) and 
+integrates the tendon routing channels, pulley seat, and whisker 
+sensor mount.
+
+\subsubsection{Actuation: Reel, Pulley, and Tendon Routing}
+
+Three Feetech HLS 2915M digital servo motors actuate all three fingers simultaneously 
+through a tendon system. The nylon tendons are each wound onto a PLA reel (diameter 35\,mm) 
+with a circumferential groove and redirected through a carbon fibre shaft (outer diameter 12\,mm). Three through-holes (diameter 2\,mm), one per finger, route the tendon along the 
+shaft, where it splits into three branches fixed to the distal 
+end of each finger. The motors are connected to a URT-2 bus communication board and controlled via the Arduino Teensy board. This board also allows the current readout from each digital motor to be read and separately controlled upon rock  contact.
+
+\subsubsection{Microspine Module Fabrication and Assembly}
+
+Microspine modules were fabricated through additive manufacturing using a Bambu X-1 Carbon. The spines were embedded by pausing the print at relevant times to insert the hook. After fabrication, the modules were inspected, trimmed, and 2x Grade 42 Neodymium Magnets (diameter 5\ mm, height 2\ mm) were press-fitted and attached through adhesive on the bottom and side.
+
+
+\subsection{Mars-Relevant Rock Analogues}
+
+Four rock analogues were selected from TU Delft's Planetary Analogue Rock Collection to span 
+the range of surface textures, asperity scales, and 
+mechanical properties relevant to Martian microspine 
+engagement (Table~I, Fig.~7). 
+Rather than reproducing a specific Martian site, the 
+selection covers both favorable surfaces for microspine 
+engagement --- coarse-grained igneous rocks with strong, 
+stable asperities --- and unfavorable ones --- smooth, 
+rounded, or fine-grained surfaces where engagement 
+probability is expected to be low. Each sample is 
+characterised by qualitative lithology, surface roughness, 
+asperity scale, hardness, and porosity, used to classify 
+rocks into interaction regimes and support the construction 
+of the terrain-compatibility framework in 
+Section~IV.
+
+\begin{table}[t]
+\caption{Mars-relevant rock analogues and microspine interaction}
+\label{tab:analogues}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{p{1.8cm} p{2.8cm} p{3.2cm}}
+\hline
+\textbf{Sample} & \textbf{Martian occurrence} & \textbf{Microspine relevance} \\
+\hline
+Dolerite \newline {\scriptsize phaneritic, hard, stable asperities} &
+S\'e\'itah/Jezero~\cite{Farley2022JezeroIgneous}; Valles Marineris; Nili Fossae &
+Favorable for thick spines; high engagement probability; low fracture risk \\
+
+Basalt \newline {\scriptsize aphanitic, very hard, smooth } &
+Gusev~\cite{Squyres2004Spirit}; Syrtis Major; Tharsis; Elysium &
+Poor thick-spine engagement on fresh faces; thin spines required\\
+
+Ignimbrite \newline (clast-rich) \newline {\scriptsize heterogeneous hardness, friable } &
+Medusae Fossae†~\cite{Mandt2008MFF}; Apollinaris Mons; Hadriacus/Tyrrhenus paterae &
+High success rate but low payload; matrix fracture dominant failure mode \\
+
+Ignimbrite \newline (cobble) \newline {\scriptsize fluvially rounded, smooth, convex} &
+Gale/Hottah~\cite{Williams2013Hottah}; Jezero delta~\cite{Mangold2021JezeroDelta} &
+Grasping dominated by finger enveloping; microspine contribution limited \\
+\hline
+\multicolumn{3}{l}{\scriptsize †Inferred from orbital data; not confirmed in situ.} \\
+\hline
+\end{tabular}
+\vspace{-3mm}
+\end{table}
+
+
+
+% As per comments, moved preliminary estimate into system concept. Unsure exactly where this is supposed to fit
+
+\subsection{Preliminary Static Force Estimates}
+
+
+Direct measurement of static shear and pull-off forces in 
+microspine-rock interaction is experimentally challenging: 
+engagement forces vary significantly between trials due to 
+the stochastic nature of asperity contact, and decoupling 
+shear from normal components requires instrumentation not 
+available at this stage. We therefore derive preliminary 
+estimates by combining actuation system parameters with 
+sustained payload measurements, and back-calculate 
+$P_{eng}$ and $\bar{f}_{spine}$ across configurations and 
+rock types.
+
+The effective tendon force at the finger tip is 
+$F_{eff} \approx 224$\,N. For the 4-spine configuration 
+($N_s = 4$), the estimated shear resistance per module is:
+%
+\begin{equation}
+F_{shear} \approx \mu \cdot F_{eff} = 0.3 \times 224 
+\approx 67\,\text{N}
+\end{equation}
+%
+and the mean engagement contribution per spine:
+%
+\begin{equation}
+P_{eng} \cdot \bar{f}_{spine} = \frac{F_{max}}{N_s}
+\end{equation}
+
+Table~\ref{tab:peng} summarises the estimated 
+$P_{eng} \cdot \bar{f}_{spine}$ values per configuration 
+and rock type, derived from sustained payload measurements 
+and normalised engagement probability inferred from 
+repeated trials.
+
+\begin{table}[h]
+\vspace{-3mm}
+\caption{Estimated $P_{eng} \cdot \bar{f}_{spine}$ 
+(N/spine) per configuration and rock analogue.}
+\label{tab:peng}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Config.} & \textbf{Ign. clast} & \textbf{Dolerite} 
+& \textbf{Ign. cobble} & \textbf{Basalt} \\
+\hline
+Size 16 (thin)  & 0.67 & 0.30 & 0.64 & 0.15 \\
+Size 10 (thick) & 0.74 & 1.69 & 1.99 & 0.45 \\
+No spines       & 0.52 & 0.22 & 0.32 & 0.00 \\
+Mixed (10+16)   & 0.74 & 1.69 & 1.80 & 0.30 \\
+\hline
+\end{tabular}
+\vspace{-3mm}
+\end{table}
+
+Several observations follow. On dolerite and ignimbrite 
+rounded cobble, the thick-spine configuration achieves the 
+highest $P_{eng} \cdot \bar{f}_{spine}$, reflecting stable 
+engagement with hard, well-defined asperities. On ignimbrite 
+clast-rich, all spine configurations yield similar and 
+relatively low values ($\approx$0.67--0.74\,N/spine), 
+consistent with $\bar{f}_{spine}$ being limited by matrix 
+fracture strength rather than spine geometry: engagement 
+is achieved across configurations but load transfer is 
+capped by surface failure. The mixed configuration 
+approaches thick-spine performance on most surfaces while 
+improving engagement on smooth geometries, suggesting 
+broader terrain compatibility at the cost of reduced 
+peak performance. Basalt yields the lowest values across 
+all configurations, with thin spines and the baseline 
+approaching zero, confirming that its aphanitic texture 
+provides insufficient asperity scale for reliable 
+engagement regardless of spine morphology. Full static 
+characterisation will be reported in an extended version 
+of this work.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Picture6.png}
+\caption{Grasping performance of the thick-spine configuration (hook size 10, 0.85mm) across the four Mars-relevant rock analogues, showing maximum sustained payload.}
+\label{figure7}
+\vspace{-3mm}
+\end{figure}
+
+
+\section{Experimental Results}
+
+\subsection{Grasping Tests}
+\subsubsection{Controlled Object Grasping}
+With my smooth vs rough (surface finish) sphere , then a spherical shape vs polyhedron (shape).
+
+\subsubsection{Natural Rock Grasping}
+
+
+Grasping trials were conducted for four microspine configurations 
+--- thin spines (size~16, $d=0.55$\,mm), thick spines (size~10, 
+$d=0.85$\,mm), no spines (silicone baseline), and mixed 
+(size~10+16) --- across the four Mars-relevant rock analogues. 
+Each configuration-rock pair was tested over $N=10$ trials, and 
+grasp success rate $S$ is reported. Results are summarised in 
+Table~\ref{tab:grasping}.
+
+
+
+Several trends emerge from the results. First, the thick-spine 
+configuration (size~10) outperforms thin spines on dolerite 
+(90\% vs.\ 40\%), consistent with the coarse mm-scale grain 
+roughness of this rock providing asperities well matched to 
+the larger spine tip geometry. Conversely, thin spines 
+(size~16) achieve higher success on ignimbrite rounded cobble 
+(80\% vs.\ 40\%), where the smooth convex surface offers only 
+fine-scale asperities that the more flexible thin spines can 
+engage while thick spines slide over. This inversion --- 
+thick spines favoured on coarse-grained surfaces, thin spines 
+on smooth ones --- directly validates the terrain-dependent 
+reconfiguration hypothesis of this work.
+
+\vspace{-3mm}
+\begin{table}[h]
+\caption{Grasp success rate (\%) per configuration and rock analogue.}
+\label{tab:grasping}
+\centering
+\footnotesize
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Configuration} & \textbf{Ign. clast} & \textbf{Dolerite} & \textbf{Ign. cobble} & \textbf{Basalt} \\
+\hline
+Size 16 (thin)   & 90 & 40 & 80 & 20 \\
+Size 10 (thick)  & 100 & 90 & 40 & 60 \\
+No spines        & 70 & 30 & 40 & 0  \\
+Mixed (10+16)    & 100 & 90 & 90 & 40 \\
+\hline
+\end{tabular}
+\vspace{-3mm}
+\end{table}
+The mixed configuration (size~10+16) achieves the highest or 
+equal success rate across three of four rock types, and notably 
+reaches 90\% on ignimbrite rounded cobble where neither 
+individual configuration exceeds 80\%. This suggests that 
+combining spine thicknesses increases the probability of 
+engagement across a wider range of asperity scales, at the 
+cost of reduced specialisation. The mixed configuration 
+therefore represents a robust default when the target surface 
+is unknown, while single-thickness configurations are 
+preferable when the geological context is known in advance.
+
+
+The silicone baseline (no spines) achieves 70\% on ignimbrite 
+clast-rich, reflecting the ability of the compliant silicone 
+layer to penetrate and grip the weak friable matrix without 
+mechanical interlocking. However, it yields 0\% on basalt, 
+confirming that the hard smooth surface provides insufficient 
+friction for purely compliant contact. Basalt remains the most 
+challenging rock across all configurations, with a maximum 
+success rate of 60\% (size~10), consistent with its fine-grained 
+aphanitic texture offering limited asperity engagement 
+opportunities for any spine morphology tested.
+
+
+\subsection{Pull-off Testing}
+What is the strength of the magnets?
+
+\subsection{Terrain Compatibility Framework}
+The grasping results and preliminary force estimates allow 
+a first terrain-compatibility mapping between microspine 
+configuration and Martian geological context 
+(Fig.~7). The key finding is that no single 
+spine configuration performs optimally across all rock types, 
+which directly motivates the reconfigurable modular design 
+proposed in this work.
+
+Thick spines (size~10) are best suited for coarse-grained, 
+high-asperity surfaces such as dolerite, representative of 
+exhumed intrusive units at S\'e\'itah/Jezero, Valles 
+Marineris, and Nili Fossae. Thin spines (size~16) are 
+preferable on smooth convex surfaces such as ignimbrite 
+rounded cobbles, confirmed at Gale and Jezero's western 
+delta --- high-priority targets for Mars Sample Return. 
+On ignimbrite clast-rich surfaces, inferred at Medusae 
+Fossae and the highland paterae, all spine configurations 
+achieve reliable engagement, but payload is limited by 
+matrix fracture rather than spine morphology, suggesting 
+that preload control is more critical than spine selection 
+in this regime. Basalt, the globally dominant lithology 
+across Tharsis, Elysium, and Syrtis Major, remains the 
+most challenging surface for all configurations tested, 
+with the mixed (10+16) configuration offering the best 
+compromise.
+
+The mixed configuration emerges as the most robust 
+default for unknown terrain, combining the engagement 
+range of both spine sizes at the cost of reduced peak 
+performance on specialised surfaces. These results 
+suggest that a two-module system --- thick for igneous 
+outcrops, thin for fluvial or smooth surfaces --- would 
+cover the majority of Martian geological scenarios 
+identified in Fig.~7, with the mixed 
+configuration as a fallback when surface type cannot 
+be determined in advance.
+
+\section{Conclusions}
+
+This paper presented a modular soft robotic gripper with 
+reconfigurable press-fit silicone microspine modules as 
+an add-on end-effector supporting both Martian rock 
+grasping and terrain-adaptive landing from a single 
+compliant structure. Grasping experiments across four 
+Mars-relevant rock analogues demonstrated that no single 
+spine morphology performs optimally across all surfaces: 
+thick spines (size~10, $d=0.85$\,mm) achieve 90\% success 
+on coarse-grained dolerite, representative of exhumed 
+igneous units at Jezero and Valles Marineris; thin spines 
+(size~16, $d=0.55$\,mm) outperform thick spines on smooth 
+ignimbrite rounded cobbles (80\% vs.\ 40\%), present at 
+Gale and Jezero's western delta; and the mixed 
+configuration provides the most robust fallback for 
+unknown terrain (90\% on three of four rock types). 
+Basalt remains the most challenging surface across all 
+configurations. Preliminary force estimates confirm that 
+performance differences are driven by the match between 
+spine tip geometry and surface asperity scale, with 
+matrix fracture identified as the dominant failure mode 
+on ignimbrite clast-rich regardless of spine morphology.
+
+The terrain-compatibility framework derived from these 
+results shows that a two-module system covers the majority of Martian geological 
+scenarios, with the mixed configuration as a robust 
+default. The modular press-fit design enables manual 
+tool-free reconfiguration in the field. Future work will 
+address automated module exchange through an onboard 
+tool-changing mechanism, full static shear and pull-off 
+characterisation, and validation under Mars-relevant 
+conditions including reduced gravity, vacuum, and dust 
+coverage.
+
+\begin{figure}
+\centering
+\includegraphics[width=.99\linewidth]{Picture3.jpg}
+\caption{Martian occurrences of the four rock analogues on the MOLA topographic map (NASA/GSFC): dolerite (red triangle), basalt (yellow pentagon), ignimbrite clast-rich (green circle), ignimbrite rounded cobbles (blue square). Inset: experimental rock samples. Ignimbrite occurrences inferred from orbital data; all others confirmed in situ (Perseverance, Curiosity, Spirit).}
+\label{figure5}
+\vspace{-5mm}
+\end{figure}
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,References}
+\end{document}
