@@ -48,7 +48,7 @@ Reconfigurable Microspine-Enhanced Soft Grippers\\for Extraterrestrial and Marti
 
 Future planetary exploration platforms could extend the reach of Mars missions by accessing steep, fragmented, or otherwise unreachable terrains, but robust physical interaction with natural surfaces remains a key limitation for sample acquisition and safe touchdown. This paper presents a soft robotic gripper with modular, magnetic snap-fit soft microspine modules as a reconfigurable add-on end-effector compatible with aerial, rover-mounted, and legged platforms. The silicone backing of each module simultaneously improves distributed contact with rock asperities and enables tool-free swap of spine morphology, supporting both opportunistic rock grasping and terrain-adaptive landing from a single compliant structure. We experimentally evaluate multiple configurations — varying spine thickness, number, and spatial distribution — through qualitative grasping trials, grasp success rate, and static shear and pull-off force measurements across four Mars-relevant rock analogues. Results show that thick-spine configurations provide superior engagement on coarse-grained, high-asperity surfaces, while thin-spine configurations achieve higher success rates on fine-grained or smoother rocks. These relationships are used to propose a terrain-compatibility framework linking microspine morphology to Martian geological context, providing design guidelines for end-effectors reconfigurable to match surface conditions at a target exploration site.
 
-\textit{Index Terms:} Microspines, Soft Robotics, Planetary Robotics, Mars Exploration, Rock Grasping, Adaptive Landing.
+\textit{Index Terms:} Microspines, Soft Robotics, Planetary Robotics, Mars Exploration, Rock Grasping, Reconfigurability.
 \end{abstract}
 
 
@@ -56,9 +56,9 @@ Future planetary exploration platforms could extend the reach of Mars missions b
 
 \section{Introduction}
 
-The successful operation of NASA's \textit{Ingenuity} Mars Helicopter demonstrated that powered flight in the Martian atmosphere can provide a new mobility layer for planetary exploration \cite{Balaram2021Ingenuity}. Future Martian aerial robots could go beyond scouting and enable close-range inspection, opportunistic sampling, and local deployment of scientific payloads in terrains that are difficult or impossible for conventional rovers to access. However, extending aerial mobility toward physical interaction remains a major challenge. Tasks such as grasping rocks, stabilizing after touchdown, perching on irregular terrain, or retrieving geological samples require reliable contact with natural surfaces whose geometry, texture, and mechanical properties are only partially known before interaction.
+The successful operation of NASA's \textit{Ingenuity} Mars Helicopter demonstrated that powered flight in the Martian atmosphere can provide a new mobility layer for planetary exploration \cite{Balaram2021Ingenuity}. Future Martian aerial robots could go extend beyond scouting and enable close-range inspection, opportunistic sampling, and retrieval of geological materials from terrains that are difficult or impossible for conventional rovers to access. However, extending aerial mobility toward physical interaction still remains a major challenge \cite{Khamseh2018AerialManipulation}. Tasks such as grasping and retaining irregular rocks, collecting geological samples, and anchoring to natural surfaces require reliable contact with objects exhibiting variable geometry, surface roughness, and mechanical properties \cite{Parness2013RockClimbing,Backus2020Nautilus}.
 
-The final accident of \textit{Ingenuity} further highlighted the operational relevance of terrain interaction. NASA's investigation reported that the helicopter encountered a relatively featureless field of sand ripples, which provided insufficient visual texture for navigation and contributed to high horizontal velocity at touchdown, a hard impact, and subsequent rotor damage \cite{NASAIngenuityAccident2024}. Although this failure was primarily related to visual navigation and touchdown dynamics, it illustrates a broader limitation for future Martian aircraft: aerial robots must not only fly over difficult terrain, but also land, stabilize, and interact with it robustly. Adaptive landing gear and contact-aware end-effectors could therefore expand the operational envelope of future rotorcraft and multimodal explorers. 
+The diversity and uncertainty of Martian terrain introduce further challenges for robotic interaction. The final accident of \textit{Ingenuity}, in which insufficient visual texture contributed to navigation errors and a damaging touchdown, highlighted the difficulties of operating near poorly characterised surfaces \cite{NASAIngenuityAccident2024}. Although primarily a navigation-related failure, it illustrates the broader challenges associated with physical interaction in unstructured planetary environments. Future robotic platforms will therefore benefit from adaptable end-effectors capable of accommodating variations in surface geometry and texture, enabling reliable rock manipulation while offering potential applications in anchoring and landing stabilisation.
 
 \begin{figure}
 \centering
@@ -72,7 +72,7 @@ Microspine-based attachment offers a promising strategy for such interactions. M
 
 Soft robotic grippers provide complementary advantages for uncertain natural environments. Their compliance allows them to conform passively to irregular objects, distribute contact forces, and tolerate positioning errors during grasping \cite{Rus2015SoftRobotics,Shintake2018SoftGrippers}. These properties are particularly relevant for planetary manipulation, where rocks may vary widely in shape, size, roughness, and fragility. However, purely soft or friction-based grippers may struggle to generate sufficient attachment forces on hard, angular, dusty, or poorly envelopable rocks. Combining compliant gripper bodies with microspine arrays is therefore an attractive hybrid approach: the soft structure adapts to uncertain rock geometry, while the microspines provide local mechanical engagement with asperities. 
 
-Despite these advantages, microspine attachment is sensitive to both surface characteristics and spine condition. Repeated contact with abrasive surfaces can cause tip blunting, plastic deformation, or fracture, reducing the ability of individual spines to engage surface asperities \cite{Underactuated_2023}. Furthermore, spine geometry influences engagement with different surface textures, making a single fixed configuration unsuitable for all contact conditions \cite{Jiang2018StochasticSpines}. These limitations motivate a modular approach in which microspine arrays can be exchanged to accommodate different surface characteristics or replace damaged contact elements, without modifying the underlying gripper structure.
+Despite these advantages, microspine attachment is sensitive to both surface characteristics and spine condition. Repeated contact with abrasive surfaces can cause tip blunting, plastic deformation, or fracture, reducing the ability of individual spines to engage surface asperities \cite{Underactuated_2023}. This challenge is particularly relevant to planetary exploration, where abrasive regolith particles common in space dust may contribute to the wear of exposed mechanical components \cite{Kalacska2024RegolithAbrasion}. Furthermore, spine geometry influences engagement with different surface textures, making a single fixed configuration unsuitable for all contact conditions \cite{Jiang2018StochasticSpines}. These limitations motivate a modular approach in which microspine arrays can be exchanged to accommodate different surface characteristics or replace damaged contact elements, without modifying the underlying gripper structure.
 
 These considerations are particularly relevant to planetary exploration, where contact surfaces can vary substantially between geological environments. The Mars 2020 mission has identified diverse igneous, sedimentary, and aqueously altered materials within Jezero crater \cite{Farley2020Mars2020,Mangold2021JezeroDelta,Farley2022JezeroIgneous}. Differences in surface texture, asperity scale, and dust coverage may affect microspine engagement and the suitability of a particular spine configuration. A reconfigurable contact interface therefore offers a means of selecting different microspine morphologies for anticipated terrain conditions while retaining the same compliant gripper architecture.
 
@@ -175,33 +175,10 @@ low-friction PTFE guide channel along the carbon fiber central shaft
 and wound onto a 3D-printed PLA reel mounted on its corresponding 
 servo output shaft.
 
-The reel diameter was designed to balance tendon travel and output 
-force. For a required tendon travel of $\Delta l = 30$\,mm to 
-achieve full finger closure from the open position, and a reel 
-rotation of $\theta = 180°$ ($\pi$\,rad), the reel radius is:
-%
-\begin{equation}
-r_{reel} = \frac{\Delta l}{\theta} = \frac{30\,\text{mm}}{\pi} 
-\approx 9.5\,\text{mm}
-\end{equation}
-%
-yielding a reel diameter of $\approx$19\,mm. The corresponding 
-tendon force at the reel output is:
-%
-\begin{equation}
-F_{tendon} = \frac{\tau_s}{r_{reel}} = 
-\frac{2.5\,\text{N·m}}{0.0095\,\text{m}} \approx 263\,\text{N}
-\end{equation}
-%
-A single-stage pulley system redirects the tendon from the reel to 
-the finger routing channels, maintaining tendon alignment during 
-finger flexion. Friction losses in the routing are estimated at 
-$\eta \approx 0.85$, yielding an effective tendon force at the 
-finger tip of $F_{eff} \approx 224$\,N, which is more than 
-sufficient to close the fingers against rock contact resistance and 
-generate the preload required for microspine engagement. A whisker-type tactile sensor is integrated at the base of the 
-gripper hub, providing contact 
-detection and grasp monitoring. 
+The tendon travel is established through an initial open-gripper calibration procedure. With the servo motors disengaged, the tendons are manually tensioned to establish a consistent reference configuration. The required motor rotation is then determined from the reel diameter and tendon displacement necessary to achieve full finger closure from an open position. This calibration also includes a maximum allowable current threshold for the motors 
+
+During actuation, motor current is monitored as an indirect indicator of the mechanical loading of each finger. A maximum allowable current threshold is implemented to stop further tendon retraction and limit excessive motor loading and grasping force. The actual contact force depends on the point at which the fingers first engage the object, as this determines the remaining tendon travel and deformation of the compliant structure. However, given the relatively limited range of finger motion, the resulting force variation is expected to be minimal. The compliance of the tendons and gripper body also accommodates small changes in object position without requiring precise force control.
+
 
 \subsubsection{Sensors and Control}
 
@@ -349,7 +326,7 @@ end of each finger. The motors are connected to a URT-2 bus communication board 
 
 Microspine modules were fabricated through additive manufacturing using a Bambu X-1 Carbon. The spines were embedded by pausing the print at relevant times to insert the hook. After fabrication, the modules were inspected, trimmed, and 2x Grade 42 Neodymium Magnets (diameter 5\ mm, height 2\ mm) were press-fitted and attached through adhesive on the bottom and side.
 
-
+ATTACH PHOTO HERE OF MICROSPINE FABRICATION
 \subsection{Mars-Relevant Rock Analogues}
 
 Four rock analogues were selected from TU Delft's Planetary Analogue Rock Collection to span 
@@ -607,38 +584,11 @@ be determined in advance.
 
 \section{Conclusions}
 
-This paper presented a modular soft robotic gripper with 
-reconfigurable press-fit silicone microspine modules as 
-an add-on end-effector supporting both Martian rock 
-grasping and terrain-adaptive landing from a single 
-compliant structure. Grasping experiments across four 
-Mars-relevant rock analogues demonstrated that no single 
-spine morphology performs optimally across all surfaces: 
-thick spines (size~10, $d=0.85$\,mm) achieve 90\% success 
-on coarse-grained dolerite, representative of exhumed 
-igneous units at Jezero and Valles Marineris; thin spines 
-(size~16, $d=0.55$\,mm) outperform thick spines on smooth 
-ignimbrite rounded cobbles (80\% vs.\ 40\%), present at 
-Gale and Jezero's western delta; and the mixed 
-configuration provides the most robust fallback for 
-unknown terrain (90\% on three of four rock types). 
-Basalt remains the most challenging surface across all 
-configurations. Preliminary force estimates confirm that 
-performance differences are driven by the match between 
-spine tip geometry and surface asperity scale, with 
-matrix fracture identified as the dominant failure mode 
-on ignimbrite clast-rich regardless of spine morphology.
+This paper presented a compliant soft robotic gripper incorporating interchangeable microspine modules for extraterrestrial rock grasping. The magnetic attachment interface enables tool-free reconfiguration of spine geometry and distribution without modifying the underlying gripper structure. This provides a means of adapting the contact interface to different surface conditions and replacing worn or damaged microspines.
 
-The terrain-compatibility framework derived from these 
-results shows that a two-module system covers the majority of Martian geological 
-scenarios, with the mixed configuration as a robust 
-default. The modular press-fit design enables manual 
-tool-free reconfiguration in the field. Future work will 
-address automated module exchange through an onboard 
-tool-changing mechanism, full static shear and pull-off 
-characterisation, and validation under Mars-relevant 
-conditions including reduced gravity, vacuum, and dust 
-coverage.
+Preliminary grasping experiments across four Mars-relevant rock analogues demonstrated variations in grasping performance between microspine configurations, highlighting the influence of surface characteristics on mechanical engagement. The modular interface was additionally characterised through normal pull-off and shear detachment measurements of approximately 2.94 N, providing an initial assessment of module retention.
+
+Future work will investigate individual motor-current calibration for more precise grasp-force regulation, automated module exchange, and validation under Mars-relevant environmental conditions, including dust and reduced gravity.
 
 \begin{figure}
 \centering
