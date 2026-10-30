@@ -119,7 +119,7 @@ These studies demonstrate the benefits of interchangeable contact elements, rang
 
 \section{System Concept and Design Space}
 
-The proposed system is a tendon-actuated soft robotic end-effector equipped with modular, interchangeable microspine arrays, designed as an add-on module for rock grasping and terrain-adaptive landing on Mars. The same compliant structure supports both use cases: in grasping mode, the three fingers close around a rock, conforming passively to its geometry while microspines engage surface asperities to resist pull-off and shear loads; in landing mode, the fingers act as compliant pads that anchor to rocky terrain by microspine interlocking, resisting shear forces and touchdown misalignment (Fig.~1).
+The proposed system is a tendon-actuated soft robotic end-effector equipped with modular, interchangeable microspine arrays, designed as an add-on module for rock grasping on extraterrestrial locations such as Mars. The same compliant structure supports both use cases: in grasping mode, the three fingers close around a rock, conforming passively to its geometry while microspines engage surface asperities to resist pull-off and shear loads; in landing mode, the fingers act as compliant pads that anchor to rocky terrain by microspine interlocking, resisting shear forces and touchdown misalignment (Fig.~1).
 
 \begin{figure}
 \centering
@@ -144,91 +144,46 @@ The proposed system is a tendon-actuated soft robotic end-effector equipped with
 \vspace{-5mm}
 \end{figure}
 
-\subsection{Compliant Gripper Body and Fingers}
-The gripper body consists of three symmetric TPU~95A fingers arranged at 120° intervals around a central hub, each approximately 70\,mm in length, 35\,mm in width, and 8\,mm in thickness (Fig.~3) %Need to update figure.
-\subsubsection{Finger Geometry and Compliance}
- TPU~95A was selected for its combination of 
-flexibility (Shore hardness 95A) and structural resilience, allowing passive conformance to irregular rock geometry while maintaining sufficient stiffness to transmit tendon forces. Three fingers were chosen as the minimal amount to ensure a fixed grasp while reducing the required weight and power from the actuators required for each finger as well as reducing the complexity of the control system.  Each finger incorporates a recessed cavity on its contact face into which a modular microspine section is inserted. 
+\subsection{Compliant Gripper Architecture}
 
-\subsubsection{Magnetic Modular Interface}
-Each finger cavity has a set of magnets embedded and secured into the printed part with adhesive. The magnets are attached on the backside of the gripper and on the side to provide two fixed face contact points to firmly maintain a grasp on the microspine modules. 
+\subsubsection{Finger Geometry and Magnetic Interface}
+
+The gripper consists of three compliant TPU~95A fingers arranged at 120$^\circ$ intervals around a central PLA hub. Each finger is approximately 70\,mm long, 35\,mm wide, and 8\,mm thick. The compliant structure accommodates variations in object geometry, while the three-finger arrangement provides multiple contact regions with a limited number of actuators.
+
+Each finger incorporates four recessed cavities for interchangeable microspine modules. The modules sit flush with the finger surface and are retained by two pairs of permanent N42 neodymium magnets, positioned at the side and base of each cavity. Each module contains two magnets, both measuring 5\,mm in diameter and 2\,mm in thickness.
+The corresponding finger magnets measure 5 $\times$ 2\,mm at the side and 10 $\times$ 2\,mm at the base. Across the three fingers, a total of 24 magnets are embedded in the twelve mounting cavities.
+
+The magnets are fitted into closely dimensioned recesses and secured using a strong adhesive. The cavity geometry provides repeatable positioning, while magnetic attraction retains the modules without mechanical latches. Modules can be removed manually by pulling or peeling from an edge, enabling tool-free replacement without modifying the compliant finger or actuation system.
 
 \subsubsection{Actuation and Tendon Routing}
 
-Finger closure is achieved through a tendon-driven mechanism 
-actuated by three Feetech HLS 2915M digital servo motors, with one servo 
-independently actuating each finger. Each tendon is routed through a 
-low-friction PTFE guide channel along the carbon fiber central shaft 
-and wound onto a 3D-printed PLA reel mounted on its corresponding 
-servo output shaft.
+Each finger is independently actuated by a Feetech
+HLS 2915M digital servo motor through a nylon fishing-line tendon. The tendons are wound onto 3D-printed PLA reels and routed through PTFE guides along the central
+carbon-fibre shaft.
 
-The tendon travel is established through an initial open-gripper calibration procedure. With the servo motors disengaged, the tendons are manually tensioned to establish a consistent reference configuration. The required motor rotation is then determined from the reel diameter and tendon displacement necessary to achieve full finger closure from an open position. This calibration also includes a maximum allowable current threshold for the motors 
-
-During actuation, motor current is monitored as an indirect indicator of the mechanical loading of each finger. A maximum allowable current threshold is implemented to stop further tendon retraction and limit excessive motor loading and grasping force. The actual contact force depends on the point at which the fingers first engage the object, as this determines the remaining tendon travel and deformation of the compliant structure. However, given the relatively limited range of finger motion, the resulting force variation is expected to be minimal. The compliance of the tendons and gripper body also accommodates small changes in object position without requiring precise force control.
-
+An initial open-gripper calibration establishes the required tendon travel. With the motors disengaged, the tendons are manually tensioned to define a reference configuration. During operation, a predefined motor-current
+threshold is used to stop further tendon retraction and
+limit excessive motor loading. This indirectly constrains
+grasp loading rather than providing direct control of
+the applied contact force.
 
 \subsubsection{Sensors and Control}
 
-Each cavity holds a force sensing resistor that is calibrated in the midway point for the modules. This allows both for both push and pull on the modules to be sensed.
+Force-sensing resistors (FSRs) are accommodated behind the interchangeable contact modules to provide an indication of both compressive contact loading and retention of the module. A whisker-type tactile sensor is additionally integrated at the base of the gripper hub. The three servo motors are controlled individually through a Teensy microcontroller and URT-2 communication interface.
 
-Additionally, each digital servo motor actuating the fingers allows for a current readout that further shows engagement of the finger against a rock. 
+\subsection{Interchangeable Microspine Module Design
+and Fabrication}
 
-Finally, a whisker-type tactile sensor is integrated at the base of the gripper hub to provide initial contact detection and further grasp monitoring.
+Microspine engagement on rough surfaces is inherently probabilistic, depending on the availability of suitable surface asperities and the ability of individual spines to establish and maintain mechanical contact. Engagement is influenced by spine tip geometry, orientation, loading direction, surface roughness, and the compliance of the supporting structure \cite{Jiang2018StochasticModels,Asbeck2006IJRR}. Consequently, different spine configurations may exhibit different attachment characteristics across natural surfaces. This motivates the development of interchangeable microspine modules, allowing spine size, number, and arrangement to be modified without changing the underlying gripper structure.
 
-\subsection{Microspine Array Design}
+\subsubsection{Module Geometry and Spine Configurations}
 
-Microspine engagement on rough surfaces is inherently probabilistic. 
-Following the stochastic model of Jiang et al.~\cite{Jiang2018StochasticModels}, 
-the expected attachment force of an array of $N$ spines can be 
-approximated as:
-%
-\begin{equation}
-F_{attach} = N \cdot P_{eng} \cdot \bar{f}_{spine}
-\end{equation}
-%
-where $P_{eng}$ is the probability of a single spine engaging a 
-suitable asperity, and $\bar{f}_{spine}$ is the mean force 
-contribution of an engaged spine. Both $P_{eng}$ and 
-$\bar{f}_{spine}$ depend on the relationship between spine tip 
-geometry and the surface roughness distribution. This motivates the 
-systematic evaluation of spine morphology across rock types with 
-different asperity scales.
+The interchangeable contact modules are manufactured
+from TPU~95A and incorporate embedded steel microspines formed from commercially available fishing hooks (Gamakatsu G-Code F314). The front modules measure approximately 9x7x15\,mm, while the rear modules measure approximately 13x7x16\,mm. Within each mounting location, the external module geometry and magnetic interface remain unchanged between spine configurations.
 
+Several configurations were fabricated to demonstrate the versatility of the modular design. These include modules without spines, modules containing one or two size-10 hooks, single-hook modules using larger size-6 or smaller size-18 hooks, and mixed configurations containing two size-10 hooks and one size-6 hook. The measured spine diameters range from approximately 0.3\,mm for size-18 hooks to 0.8\,mm for size-6 hooks. 
 
-
-\subsubsection{Spine Geometry and Angle}
-
-The microspines are fabricated from commercially available fishing 
-hooks (sizes 6 through 18), embedded in an Ecoflex~0030 silicone 
-backing and integrated into the modular TPU sections 
-(Fig.~5). The hook geometry provides a curved 
-tip profile that facilitates asperity engagement under tangential 
-loading, with the spine axis oriented at an angle $\alpha$ relative 
-to the contact surface.
-
-Each microspine module consists of a set of fishing hooks embedded in printed  part (thickness~$\approx$3\,mm), fabricated using the same TPU material. The TPU body  provides local compliance around each spine base, allowing individual spines to rotate slightly under load and distribute forces across multiple 
-engagement points. The modules snap into the finger cavity through a series of magnets that are press fit with adhesive on both the body and the module. These magnets allow for the modules to be easily replaced without modifying the compliant TPU structure, enabling 
-in-mission reconfiguration of spine morphology (Fig. 4). % Could also add here something about how in future, this would use an electromagnet for even easier adaptability.
-
-The optimal spine angle for maximising engagement force while 
-avoiding premature disengagement has been studied in prior work. 
-Asbeck et al.~\cite{Asbeck2006IJRR} showed that spine angles 
-in the range $\alpha \in [20°, 35°]$ provide the best trade-off 
-between engagement probability and pull-off resistance on hard rough 
-surfaces. For a spine engaged on an asperity of half-angle $\beta$, 
-the condition for stable engagement without slip is:
-%
-\begin{equation}
-\alpha + \beta \leq 90° - \phi
-\end{equation}
-%
-where $\phi = \arctan(\mu)$ is the friction angle and $\mu$ is the 
-coefficient of friction between spine tip and rock. For typical 
-steel-on-rock friction ($\mu \approx 0.3$--$0.5$), this yields 
-stable engagement for $\alpha \approx 25°$--$30°$. In this work, 
-the spine angle is fixed at $\alpha = 28°$ across all 
-configurations, consistent with this range, while spine thickness 
-and density are varied as the primary design parameters.
+Spine orientation also influences asperity engagement, as the direction of applied loading relative to the local surface geometry affects whether an individual spine can establish stable contact \cite{Asbeck2006IJRR}. In the present design, the curved hooks are mounted at a nominal angle of approximately $40^\circ$ relative to the module contact surface. This angle is defined by the printed spine recesses, providing a consistent nominal orientation across configurations. The selected angle is treated as a fixed design parameter rather than an experimentally established optimum.
 
 \subsubsection{Spine Thickness and Hook Size Selection}
 
