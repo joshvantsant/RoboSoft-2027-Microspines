@@ -25,6 +25,9 @@
 \usepackage[absolute,overlay]{textpos} % For copyright
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.18}
 %\usepackage[top=2.54cm, bottom=2.1cm, left=1.91cm, right=1.91cm]{geometry}
 %geometry{top=1.5cm, bottom=1.52cm, left=1.69cm, right=1.69cm}
 
@@ -46,7 +49,7 @@ Reconfigurable Microspine-Enhanced Soft Grippers\\for Extraterrestrial and Marti
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-Future planetary exploration platforms could extend the reach of Mars missions by accessing steep, fragmented, or otherwise unreachable terrains, but robust physical interaction with natural surfaces remains a key limitation for sample acquisition and safe touchdown. This paper presents a soft robotic gripper with modular, magnetic snap-fit soft microspine modules as a reconfigurable add-on end-effector compatible with aerial, rover-mounted, and legged platforms. The silicone backing of each module simultaneously improves distributed contact with rock asperities and enables tool-free swap of spine morphology, supporting both opportunistic rock grasping and terrain-adaptive landing from a single compliant structure. We experimentally evaluate multiple configurations — varying spine thickness, number, and spatial distribution — through qualitative grasping trials, grasp success rate, and static shear and pull-off force measurements across four Mars-relevant rock analogues. Results show that thick-spine configurations provide superior engagement on coarse-grained, high-asperity surfaces, while thin-spine configurations achieve higher success rates on fine-grained or smoother rocks. These relationships are used to propose a terrain-compatibility framework linking microspine morphology to Martian geological context, providing design guidelines for end-effectors reconfigurable to match surface conditions at a target exploration site.
+Future planetary exploration platforms could extend the reach of Mars missions by accessing steep, fragmented, or otherwise unreachable terrains, but robust physical interaction with natural surfaces remains a key limitation for sample acquisition and safe touchdown. This paper presents a soft robotic gripper with modular, magnetic snap-fit soft microspine modules as a reconfigurable add-on end-effector compatible with aerial, rover-mounted, and legged platforms. The soft compliant backing of each module simultaneously improves distributed contact with rock asperities and enables tool-free swap of spine morphology, supporting both opportunistic rock grasping and terrain-adaptive landing from a single compliant structure. We experimentally evaluate multiple configurations — varying spine thickness, number, and spatial distribution — through qualitative grasping trials, grasp success rate, and static shear and pull-off force measurements across four Mars-relevant rock analogues. Results show that thick-spine configurations provide superior engagement on coarse-grained, high-asperity surfaces, while thin-spine configurations achieve higher success rates on fine-grained or smoother rocks. These relationships are used to propose a terrain-compatibility framework linking microspine morphology to Martian geological context, providing design guidelines for end-effectors reconfigurable to match surface conditions at a target exploration site.
 
 \textit{Index Terms:} Microspines, Soft Robotics, Planetary Robotics, Mars Exploration, Rock Grasping, Reconfigurability.
 \end{abstract}
@@ -181,13 +184,6 @@ from TPU~95A and incorporate embedded steel microspines formed from commercially
 
 Several configurations were then fabricated to demonstrate interchangeability and explore variations in contact morphology. These include modules without spines, single- and double-spine arrangements using size-10 hooks, single-spine arrangements using larger size-6 or smaller size-18 hooks, and mixed-size arrangements. Where multiple spines are present, the hooks are predominantly positioned side by side to accommodate the limited module width. The measured wire diameters range from approximately 0.3\,mm for size-18 hooks to 0.8\,mm for size-6 hooks.
 
-Spine diameter affects the bending rigidity and ability of individual hooks to accommodate local surface geometry. For a circular wire cross-section, the flexural rigidity is given by
-%
-\begin{equation}
-EI = E\frac{\pi d^4}{64},
-\end{equation}
-%
-where $E$ is Young's modulus and $d$ is the wire diameter. The measured wire diameters range from approximately 0.3\,mm for size-18 hooks to 0.8\,mm for size-6 hooks. Thus, larger hooks exhibit substantially greater wire bending rigidity, whereas smaller hooks may deform more readily under contact loading. The effective compliance of an embedded spine also depends on its geometry, unsupported length, and surrounding TPU structure.
 
 The selection of spine geometry is also influenced by the characteristics of the target rock surface. Larger, thicker spines are expected to be advantageous on coarse-grained igneous rocks such as dolerite, where prominent, mechanically stable asperities can provide engagement points for larger hooks. Conversely, smaller spines may be better suited to smoother surfaces, such as rounded ignimbrite cobbles, where finer asperities may be inaccessible to larger spine tips. Fine-grained basalt presents a further challenge due to the limited availability of suitable surface asperities, potentially reducing engagement across spine sizes. For weaker, clast-rich ignimbrite, engagement may instead be limited by local rock fracture, requiring consideration of the forces transmitted through individual spines. These contrasting surface characteristics motivate the use of interchangeable modules with different spine sizes and arrangements.
 
@@ -260,82 +256,50 @@ Grasping dominated by finger enveloping; microspine contribution limited \\
 
 % As per comments, moved preliminary estimate into system concept. Unsure exactly where this is supposed to fit
 
-\subsection{Preliminary Static Force Estimates}
-\textcolor{red}{\textbf{I WILL MOST LIKELY REMOVE THIS}}
-Direct measurement of static shear and pull-off forces in microspine-rock interaction is experimentally challenging: engagement forces vary significantly between trials due to the stochastic nature of asperity contact, and decoupling shear from normal components requires instrumentation not available at this stage. We therefore derive preliminary estimates by combining actuation system parameters with sustained payload measurements, and back-calculate $P_{eng}$ and $\bar{f}_{spine}$ across configurations and 
-rock types.
+% \subsection{Preliminary Static Force Estimates}
+% \textcolor{red}{\textbf{I WILL MOST LIKELY REMOVE THIS}}
+% Direct measurement of static shear and pull-off forces in microspine-rock interaction is experimentally challenging: engagement forces vary significantly between trials due to the stochastic nature of asperity contact, and decoupling shear from normal components requires instrumentation not available at this stage. We therefore derive preliminary estimates by combining actuation system parameters with sustained payload measurements, and back-calculate $P_{eng}$ and $\bar{f}_{spine}$ across configurations and 
+% rock types.
 
-The effective tendon force at the finger tip is $F_{eff} \approx 224$\,N. For the 4-spine configuration ($N_s = 4$), the estimated shear resistance per module is:
+% The effective tendon force at the finger tip is $F_{eff} \approx 224$\,N. For the 4-spine configuration ($N_s = 4$), the estimated shear resistance per module is:
+% %
+% \begin{equation}
+% F_{shear} \approx \mu \cdot F_{eff} = 0.3 \times 224 
+% \approx 67\,\text{N}
+% \end{equation}
+% %
+% and the mean engagement contribution per spine:
+% %
+% \begin{equation}
+% P_{eng} \cdot \bar{f}_{spine} = \frac{F_{max}}{N_s}
+% \end{equation}
+
+%Table~\ref{tab:peng} summarises the estimated $P_{eng} \cdot \bar{f}_{spine}$ values per configuration and rock type, derived from sustained payload measurements and normalised engagement probability inferred from repeated trials.
 %
-\begin{equation}
-F_{shear} \approx \mu \cdot F_{eff} = 0.3 \times 224 
-\approx 67\,\text{N}
-\end{equation}
-%
-and the mean engagement contribution per spine:
-%
-\begin{equation}
-P_{eng} \cdot \bar{f}_{spine} = \frac{F_{max}}{N_s}
-\end{equation}
+% \begin{table}[h]
+% \vspace{-3mm}
+% \caption{Estimated $P_{eng} \cdot \bar{f}_{spine}$ 
+% (N/spine) per configuration and rock analogue.}
+% \label{tab:peng}
+% \centering
+% \footnotesize
+% \renewcommand{\arraystretch}{1.3}
+% \setlength{\tabcolsep}{4pt}
+% \begin{tabular}{lcccc}
+% \hline
+% \textbf{Config.} & \textbf{Ign. clast} & \textbf{Dolerite} 
+% & \textbf{Ign. cobble} & \textbf{Basalt} \\
+% \hline
+% Size 16 (thin)  & 0.67 & 0.30 & 0.64 & 0.15 \\
+% Size 10 (thick) & 0.74 & 1.69 & 1.99 & 0.45 \\
+% No spines       & 0.52 & 0.22 & 0.32 & 0.00 \\
+% Mixed (10+16)   & 0.74 & 1.69 & 1.80 & 0.30 \\
+% \hline
+% \end{tabular}
+% \vspace{-3mm}
+% \end{table}
 
-Table~\ref{tab:peng} summarises the estimated 
-$P_{eng} \cdot \bar{f}_{spine}$ values per configuration 
-and rock type, derived from sustained payload measurements 
-and normalised engagement probability inferred from 
-repeated trials.
-
-\begin{table}[h]
-\vspace{-3mm}
-\caption{Estimated $P_{eng} \cdot \bar{f}_{spine}$ 
-(N/spine) per configuration and rock analogue.}
-\label{tab:peng}
-\centering
-\footnotesize
-\renewcommand{\arraystretch}{1.3}
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{lcccc}
-\hline
-\textbf{Config.} & \textbf{Ign. clast} & \textbf{Dolerite} 
-& \textbf{Ign. cobble} & \textbf{Basalt} \\
-\hline
-Size 16 (thin)  & 0.67 & 0.30 & 0.64 & 0.15 \\
-Size 10 (thick) & 0.74 & 1.69 & 1.99 & 0.45 \\
-No spines       & 0.52 & 0.22 & 0.32 & 0.00 \\
-Mixed (10+16)   & 0.74 & 1.69 & 1.80 & 0.30 \\
-\hline
-\end{tabular}
-\vspace{-3mm}
-\end{table}
-
-Several observations follow. On dolerite and ignimbrite 
-rounded cobble, the thick-spine configuration achieves the 
-highest $P_{eng} \cdot \bar{f}_{spine}$, reflecting stable 
-engagement with hard, well-defined asperities. On ignimbrite 
-clast-rich, all spine configurations yield similar and 
-relatively low values ($\approx$0.67--0.74\,N/spine), 
-consistent with $\bar{f}_{spine}$ being limited by matrix 
-fracture strength rather than spine geometry: engagement 
-is achieved across configurations but load transfer is 
-capped by surface failure. The mixed configuration 
-approaches thick-spine performance on most surfaces while 
-improving engagement on smooth geometries, suggesting 
-broader terrain compatibility at the cost of reduced 
-peak performance. Basalt yields the lowest values across 
-all configurations, with thin spines and the baseline 
-approaching zero, confirming that its aphanitic texture 
-provides insufficient asperity scale for reliable 
-engagement regardless of spine morphology. Full static 
-characterisation will be reported in an extended version 
-of this work.
-
-
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{Picture6.png}
-\caption{Grasping performance of the thick-spine configuration (hook size 10, 0.85mm) across the four Mars-relevant rock analogues, showing maximum sustained payload.}
-\label{figure7}
-\vspace{-3mm}
-\end{figure}
+%Several observations follow. On dolerite and ignimbrite rounded cobble, the thick-spine configuration achieves the highest $P_{eng} \cdot \bar{f}_{spine}$, reflecting stable engagement with hard, well-defined asperities. On ignimbrite clast-rich, all spine configurations yield similar and relatively low values ($\approx$0.67--0.74\,N/spine), consistent with $\bar{f}_{spine}$ being limited by matrix fracture strength rather than spine geometry: engagement is achieved across configurations but load transfer is capped by surface failure. The mixed configuration approaches thick-spine performance on most surfaces while improving engagement on smooth geometries, suggesting broader terrain compatibility at the cost of reduced peak performance. Basalt yields the lowest values across all configurations, with thin spines and the baseline approaching zero, confirming that its aphanitic texture provides insufficient asperity scale for reliable engagement regardless of spine morphology. Full static characterisation will be reported in an extended version of this work.
 
 
 \section{Experimental Results}
@@ -344,6 +308,23 @@ of this work.
 
 The retention of the magnetic modules was assessed
 under nominally normal pull-off and tangential shear loading conditions until detachment from the finger cavity. The gripper was securely fixed, and an external load was applied exclusively to the selected module. The indicated load at the point of detachment was then recorded for each loading condition.
+
+\begin{table}[t]
+\caption{Force required for grip failure (gf), mean $\pm$ SD (sample SD, $n=5$ grasps per condition).}
+\label{tab:spine_force}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Object & No spines & 1 spine & 2 spines \\
+\midrule
+Smooth sphere & $200 \pm 54$   & $349 \pm 136$  & $320 \pm 76$ \\
+Coarse sphere & $253 \pm 25$   & $832 \pm 202$  & $1040 \pm 201$ \\
+Polyhedron    & $1010 \pm 182$ & $2076 \pm 278$ & $2658 \pm 1015^{\dagger}$ \\
+\bottomrule
+\multicolumn{4}{l}{\footnotesize $^{\dagger}$In 2 of 5 grasps a module detached at 1600 and 1500~gf;}\\
+\multicolumn{4}{l}{\footnotesize the other three failed at $3397 \pm 117$~gf.}
+\end{tabular}
+\end{table}
 
 Each loading condition was repeated ten times at two different mounting locations for both the front and rear module geometries, resulting in 80 trials. Detachment generally occurred at an indicated load of approximately 300\,gf (2.9\,N), with normal pull-off tending to occur slightly below this value and tangential shear loading slightly above it. Detachment was typically initiated through peeling at one edge with similar behaviour observed across the tested module locations.
 
@@ -354,38 +335,56 @@ An additional characteristic of the magnetic interface is its potential to permi
 
 
 \subsection{Grasping Tests}
-\subsubsection{Controlled Object Grasping}
-With my smooth vs rough (surface finish) sphere , then a spherical shape vs polyhedron (shape).
+\subsubsection{Grasping Tests on Controlled Objects}
 
-\subsubsection{Natural Rock Grasping}
+To establish a quantitative benchmark for the effects of surface texture and object geometry, the grasping capability of the gripper was evaluated using three objects: a smooth sphere, a coarse-textured sphere, and a rough polyhedron. Three interchangeable module configurations were investigated, incorporating zero, one, or two microspines per module. Each combination was evaluated over five trials under similar conditions, with the indicated load at grasp failure recorded.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]
+{controlled_grasp_figure_two_column.pdf}
+\caption{Indicated grasp-retention loads for
+three test objects and three microspine
+configurations ($N=5$ trials per condition).
+Circles represent individual trials, diamonds
+indicate the mean, and error bars show one
+sample standard deviation. Triangles identify
+trials terminated by magnetic module
+detachment. Different vertical scales are
+used for each object.}
+\label{fig:controlled_grasping}
+\end{figure*}
+
+As shown in Tab.~\ref{tab:controlled_grasping}, the microspine configurations exhibited different retention characteristics across the test objects. For the smooth sphere, the mean indicated load increased from 1.96\,N without spines to 3.42\,N and 3.14\,N for the single- and double-spine configurations, respectively.
+
+The effect was more pronounced on the coarse-textured sphere, for which the mean load increased from 2.48\,N without spines to 8.16\,N with one spine and 10.20\,N with two spines per module. Variation between trials was observed, consistent with differences in the local surface features encountered during contact. 
+
+The highest loads were recorded on the polyhedron, reaching mean values of 9.90\,N, 20.36\,N, and 26.07\,N for the zero-, one-, and two-spine configurations, respectively. In the two-spine configuration, two of the five trials terminated through magnetic module detachment at approximately 14.7--15.7\,N, whereas the remaining three trials reached 32.1--34.3\,N. 
+
+Several observations can be made from these tests. First that the surface finish of the objects grasped has a large  tests These failures indicate that while the shape of an object can provide the best gripping force, there is also a chance that the shape will load to failure one of the magnetic interfaces on the modules. Although the results demonstrate an increase in retention with the addition of microspines for the coarse sphere
+and polyhedron, the small sample size
+and variations in local engagement
+limit broader conclusions regarding
+optimal spine configurations.
+
+\subsubsection{Grasping Tests on Natural Rocks} 
+
+Grasping performance was evaluated using the four natural rock specimens described in Section~III.D. A trial was considered successful when the object could be lifted by 300\,mm and retained for 5\,s. A representative example of this testing is shown in Figure \ref{figure7_grasping_experiment}.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Picture6.png}
+\caption{Grasping performance of the thick-spine configuration (hook size 10, 0.85mm) across the four Mars-relevant rock analogues, showing maximum sustained payload.}
+\label{figure7_grasping_experiment}
+\vspace{-3mm}
+\end{figure}
 
 
-Grasping trials were conducted for four microspine configurations 
---- thin spines (size~16, $d=0.55$\,mm), thick spines (size~10, 
-$d=0.85$\,mm), no spines (silicone baseline), and mixed 
-(size~10+16) --- across the four Mars-relevant rock analogues. 
-Each configuration-rock pair was tested over $N=10$ trials, and 
-grasp success rate $S$ is reported. Results are summarised in 
-Table~\ref{tab:grasping}.
-
-
-
-Several trends emerge from the results. First, the thick-spine 
-configuration (size~10) outperforms thin spines on dolerite 
-(90\% vs.\ 40\%), consistent with the coarse mm-scale grain 
-roughness of this rock providing asperities well matched to 
-the larger spine tip geometry. Conversely, thin spines 
-(size~16) achieve higher success on ignimbrite rounded cobble 
-(80\% vs.\ 40\%), where the smooth convex surface offers only 
-fine-scale asperities that the more flexible thin spines can 
-engage while thick spines slide over. This inversion --- 
-thick spines favoured on coarse-grained surfaces, thin spines 
-on smooth ones --- directly validates the terrain-dependent 
-reconfiguration hypothesis of this work.
+Four configurations were investigated: thin spines (size~16), thick spines (size~10), no spines, and a mixed size-10/16 arrangement. Each configuration was tested ten times on each rock specimen, with the observed grasp success rates presented in Table~\ref{tab:grasping}.
 
 \vspace{-3mm}
 \begin{table}[h]
-\caption{Grasp success rate (\%) per configuration and rock analogue.}
+\caption{Observed grasp success rate (\%) per configuration and rock analogue.}
 \label{tab:grasping}
 \centering
 \footnotesize
@@ -403,28 +402,17 @@ Mixed (10+16)    & 100 & 90 & 90 & 40 \\
 \end{tabular}
 \vspace{-3mm}
 \end{table}
-The mixed configuration (size~10+16) achieves the highest or 
-equal success rate across three of four rock types, and notably 
-reaches 90\% on ignimbrite rounded cobble where neither 
-individual configuration exceeds 80\%. This suggests that 
-combining spine thicknesses increases the probability of 
-engagement across a wider range of asperity scales, at the 
-cost of reduced specialisation. The mixed configuration 
-therefore represents a robust default when the target surface 
-is unknown, while single-thickness configurations are 
-preferable when the geological context is known in advance.
 
 
-The silicone baseline (no spines) achieves 70\% on ignimbrite 
-clast-rich, reflecting the ability of the compliant silicone 
-layer to penetrate and grip the weak friable matrix without 
-mechanical interlocking. However, it yields 0\% on basalt, 
-confirming that the hard smooth surface provides insufficient 
-friction for purely compliant contact. Basalt remains the most 
-challenging rock across all configurations, with a maximum 
-success rate of 60\% (size~10), consistent with its fine-grained 
-aphanitic texture offering limited asperity engagement 
-opportunities for any spine morphology tested.
+Several trends emerge from the results. First, the thick-spine configuration (size~10) outperforms thin spines on dolerite (90\% vs.\ 40\%), consistent with its coarse surface texture providing asperities suitable for engagement by larger hooks. Conversely, thin spines (size~16) achieve higher success on the rounded ignimbrite cobble (80\% vs.\ 40\%), where the relatively smooth, convex surface may favour engagement by smaller, more compliant spines. This inversion suggests that spine geometry influences engagement across different surface conditions, supporting the motivation for terrain-dependent microspine reconfiguration.
+
+
+The mixed configuration (size~10+16) achieves the highest or equal success rate across three of the four rock specimens, notably reaching 90\% on the rounded ignimbrite cobble, where neither individual configuration exceeds 80\%. This suggests that combining spine sizes may improve the range of surface features accessible for engagement. The mixed arrangement therefore provides promising performance across the tested specimens, although its effectiveness on other surfaces remains to be established.
+
+The baseline configuration without spines achieves 70\% success on clast-rich ignimbrite, indicating that compliant contact alone can provide sufficient retention under some conditions. However, it achieves no successful grasps on basalt, where the thick-spine configuration reaches 60\%. Basalt also produces the lowest success rates for the thin-spine and mixed configurations. These observations are consistent with the limited accessible asperities expected on relatively smooth, fine-grained surfaces, although the effects of specimen geometry and mass cannot be excluded.
+
+
+As noted in Figure \ref{figure7_grasping_experiment}, the tested rock specimens ranged in mass from approximately 300 to 850\,g, with retention of heavier specimens generally less reliable. Observed grasp failures were associated with microspine slip, while the magnetic modules remained attached to their finger cavities.
 
 
 \subsection{Terrain Compatibility Framework}
