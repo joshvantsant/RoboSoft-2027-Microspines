@@ -25,9 +25,6 @@
 \usepackage[absolute,overlay]{textpos} % For copyright
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
-\usepackage{pgfplots}
-\usepgfplotslibrary{groupplots}
-\pgfplotsset{compat=1.18}
 %\usepackage[top=2.54cm, bottom=2.1cm, left=1.91cm, right=1.91cm]{geometry}
 %geometry{top=1.5cm, bottom=1.52cm, left=1.69cm, right=1.69cm}
 
@@ -309,6 +306,20 @@ Grasping dominated by finger enveloping; microspine contribution limited \\
 The retention of the magnetic modules was assessed
 under nominally normal pull-off and tangential shear loading conditions until detachment from the finger cavity. The gripper was securely fixed, and an external load was applied exclusively to the selected module. The indicated load at the point of detachment was then recorded for each loading condition.
 
+Each loading condition was repeated ten times at two different mounting locations for both the front and rear module geometries, resulting in 80 trials. Detachment consistently occurred at an indicated load of approximately 300\,gf (2.9\,N), with normal pull-off tending to occur slightly below this value and tangential shear loading slightly above it. Detachment was typically initiated through peeling at one edge with similar behaviour observed across the tested module locations.
+
+These measurements characterise the retention of individual magnetic module-to-finger interfaces,
+rather than the overall microspine grasping capacity as not all of the modules will necessarily engage the rock simultaneously. Furthermore, the loading direction and force distribution between the modules depend on the object geometry and contact conditions. Consequently, the individual detachment forces cannot be directly summed to estimate the maximum grasping force.
+
+An additional characteristic of the magnetic interface is its potential to permit limited module displacement before complete detachment. This may allow passive redistribution of contact forces between neighbouring modules, while magnetic attraction could facilitate re-seating of partially displaced modules when the load is reduced. However, these mechanisms have not yet been experimentally characterised.
+
+
+\subsection{Grasping Tests}
+\subsubsection{Grasping Tests on Controlled Objects}
+
+To first establish a clear quantitative benchmark between the surface of the rocks versus the shapes, the grasping capability of the gripper was evaluated using three objects: a smooth sphere, a coarse-textured sphere, and a rough polyhedron. Three interchangeable module configurations were investigated, incorporating zero, one, or two microspines per module. Each combination
+was evaluated over five trials using similar conditions, with the indicated load at grasp failure recorded.
+
 \begin{table}[t]
 \caption{Force required for grip failure (gf), mean $\pm$ SD (sample SD, $n=5$ grasps per condition).}
 \label{tab:spine_force}
@@ -322,40 +333,10 @@ Coarse sphere & $253 \pm 25$   & $832 \pm 202$  & $1040 \pm 201$ \\
 Polyhedron    & $1010 \pm 182$ & $2076 \pm 278$ & $2658 \pm 1015^{\dagger}$ \\
 \bottomrule
 \multicolumn{4}{l}{\footnotesize $^{\dagger}$In 2 of 5 grasps a module detached at 1600 and 1500~gf;}\\
-\multicolumn{4}{l}{\footnotesize the other three failed at $3397 \pm 117$~gf.}
 \end{tabular}
 \end{table}
 
-Each loading condition was repeated ten times at two different mounting locations for both the front and rear module geometries, resulting in 80 trials. Detachment generally occurred at an indicated load of approximately 300\,gf (2.9\,N), with normal pull-off tending to occur slightly below this value and tangential shear loading slightly above it. Detachment was typically initiated through peeling at one edge with similar behaviour observed across the tested module locations.
-
-These measurements characterise the retention of individual magnetic module-to-finger interfaces,
-rather than the overall microspine grasping capacity as not all of the modules will necessarily engage the rock simultaneously. Furthermore, the loading direction and force distribution between the modules depend on the object geometry and contact conditions. Consequently, the individual detachment forces cannot be directly summed to estimate the maximum grasping force.
-
-An additional characteristic of the magnetic interface is its potential to permit limited module displacement before complete detachment. This may allow passive redistribution of contact forces between neighbouring modules, while magnetic attraction could facilitate re-seating of partially displaced modules when the load is reduced. However, these mechanisms have not yet been experimentally characterised.
-
-
-\subsection{Grasping Tests}
-\subsubsection{Grasping Tests on Controlled Objects}
-
-To establish a quantitative benchmark for the effects of surface texture and object geometry, the grasping capability of the gripper was evaluated using three objects: a smooth sphere, a coarse-textured sphere, and a rough polyhedron. Three interchangeable module configurations were investigated, incorporating zero, one, or two microspines per module. Each combination was evaluated over five trials under similar conditions, with the indicated load at grasp failure recorded.
-
-\begin{figure*}[t]
-\centering
-\includegraphics[width=\textwidth]
-{controlled_grasp_figure_two_column.pdf}
-\caption{Indicated grasp-retention loads for
-three test objects and three microspine
-configurations ($N=5$ trials per condition).
-Circles represent individual trials, diamonds
-indicate the mean, and error bars show one
-sample standard deviation. Triangles identify
-trials terminated by magnetic module
-detachment. Different vertical scales are
-used for each object.}
-\label{fig:controlled_grasping}
-\end{figure*}
-
-As shown in Tab.~\ref{tab:controlled_grasping}, the microspine configurations exhibited different retention characteristics across the test objects. For the smooth sphere, the mean indicated load increased from 1.96\,N without spines to 3.42\,N and 3.14\,N for the single- and double-spine configurations, respectively.
+As shown in Tab.~\ref{tab:spine_force}, the microspine configurations exhibited different retention characteristics across the test objects. For the smooth sphere, the mean indicated load increased from 1.96\,N without spines to 3.42\,N and 3.14\,N for the single- and double-spine configurations, respectively.
 
 The effect was more pronounced on the coarse-textured sphere, for which the mean load increased from 2.48\,N without spines to 8.16\,N with one spine and 10.20\,N with two spines per module. Variation between trials was observed, consistent with differences in the local surface features encountered during contact. 
 
