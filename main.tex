@@ -148,12 +148,11 @@ The proposed system is a tendon-actuated soft robotic end-effector equipped with
 
 \subsubsection{Finger Geometry and Magnetic Interface}
 
-The gripper consists of three compliant TPU~95A fingers arranged at 120$^\circ$ intervals around a central PLA hub. Each finger is approximately 70\,mm long, 35\,mm wide, and 8\,mm thick. The compliant structure accommodates variations in object geometry, while the three-finger arrangement provides multiple contact regions with a limited number of actuators.
+The gripper comprises a single compliant body with three fingers arranged at 120$^\circ$ intervals around its central mounting region. Each finger has nominal CAD dimensions of approximately 70\,mm in length, 35\,mm in width, and 8\,mm in thickness. The grippers and central hub were fabricated using Fused Deposition Modelling with TPU~95A filament on a Bambu Lab X1 Carbon printer (layer height 0.08 \,mm, and 15 \% infill). The compliant structure accommodates variations in object geometry, while the three-finger arrangement provides distributed contact around irregular rocks. Three fingers were selected as a compromise between grasp stability and system complexity, allowing independent finger actuation while limiting the number of motors, overall mass, power requirements, and control complexity.
 
-Each finger incorporates four recessed cavities for interchangeable microspine modules. The modules sit flush with the finger surface and are retained by two pairs of permanent N42 neodymium magnets, positioned at the side and base of each cavity. Each module contains two magnets, both measuring 5\,mm in diameter and 2\,mm in thickness.
-The corresponding finger magnets measure 5 $\times$ 2\,mm at the side and 10 $\times$ 2\,mm at the base. Across the three fingers, a total of 24 magnets are embedded in the twelve mounting cavities.
+Each finger incorporates four recessed mounting cavities, comprising two smaller front cavities and two larger rear cavities. The interchangeable microspine modules sit flush with the finger surface and are retained by two pairs of permanent N42 neodymium magnets, located along the side and base of each cavity. Each module contains two magnets of diameter 5\,mm and thickness 2\,mm. The corresponding finger magnets measure 5 $\times$ 2\,mm at the side and 10 $\times$ 2\,mm at the base, resulting in 24 embedded magnets across the three fingers.
 
-The magnets are fitted into closely dimensioned recesses and secured using a strong adhesive. The cavity geometry provides repeatable positioning, while magnetic attraction retains the modules without mechanical latches. Modules can be removed manually by pulling or peeling from an edge, enabling tool-free replacement without modifying the compliant finger or actuation system.
+The magnets are secured into closely fitted recesses with a strong adhesive. The cavity geometry provides repeatable positioning, while magnetic attraction retains the modules without mechanical latches. Modules can be removed manually by pulling or peeling from an edge, enabling tool-free replacement without modifying the compliant finger or actuation system.
 
 \subsubsection{Actuation and Tendon Routing}
 
@@ -161,15 +160,14 @@ Each finger is independently actuated by a Feetech
 HLS 2915M digital servo motor through a nylon fishing-line tendon. The tendons are wound onto 3D-printed PLA reels and routed through PTFE guides along the central
 carbon-fibre shaft.
 
-An initial open-gripper calibration establishes the required tendon travel. With the motors disengaged, the tendons are manually tensioned to define a reference configuration. During operation, a predefined motor-current
-threshold is used to stop further tendon retraction and
-limit excessive motor loading. This indirectly constrains
-grasp loading rather than providing direct control of
-the applied contact force.
+An initial open-gripper calibration establishes the required tendon travel. With the motors disengaged, the tendons are manually tensioned to define a reference configuration. During operation, a predefined motor-current threshold is used to stop further tendon retraction and limit excessive motor loading. This indirectly constrains grasp loading rather than providing direct control of the applied contact force.
 
 \subsubsection{Sensors and Control}
 
-Force-sensing resistors (FSRs) are accommodated behind the interchangeable contact modules to provide an indication of both compressive contact loading and retention of the module. A whisker-type tactile sensor is additionally integrated at the base of the gripper hub. The three servo motors are controlled individually through a Teensy microcontroller and URT-2 communication interface.
+A force-sensing resistor (FSR) is positioned between each interchangeable module and its corresponding finger cavity. Magnetic attachment compresses the FSR, providing a qualitative indication of module presence and changes in the sensor signal  also provide an indication of compressive contact loading on the module during a grasp.
+
+A Teensy~4.0 microcontroller manages button-triggered gripper actuation and sensor data acquisition. The three Feetech servo motors are controlled through a URT-2 communication interface, with closure initiated by a button command. A configurable motor-current threshold provides a cut-off for further tendon retraction under excessive loading.
+
 
 \subsection{Interchangeable Microspine Module Design
 and Fabrication}
@@ -179,117 +177,52 @@ Microspine engagement on rough surfaces is inherently probabilistic, depending o
 \subsubsection{Module Geometry and Spine Configurations}
 
 The interchangeable contact modules are manufactured
-from TPU~95A and incorporate embedded steel microspines formed from commercially available fishing hooks (Gamakatsu G-Code F314). The front modules measure approximately 9x7x15\,mm, while the rear modules measure approximately 13x7x16\,mm. Within each mounting location, the external module geometry and magnetic interface remain unchanged between spine configurations.
+from TPU~95A and incorporate embedded steel microspines formed from commercially available fishing hooks (Gamakatsu G-Code F314). The front two  modules are mirrored and measure approximately 9x7x15\,mm, while the rear two modules are also mirrored and measure approximately 13x7x16\,mm. Within each mounting location, the external module geometry and magnetic interface remain unchanged  to allow for easy modularity between spine configurations.
 
-Several configurations were fabricated to demonstrate the versatility of the modular design. These include modules without spines, modules containing one or two size-10 hooks, single-hook modules using larger size-6 or smaller size-18 hooks, and mixed configurations containing two size-10 hooks and one size-6 hook. The measured spine diameters range from approximately 0.3\,mm for size-18 hooks to 0.8\,mm for size-6 hooks. 
+Several configurations were then fabricated to demonstrate interchangeability and explore variations in contact morphology. These include modules without spines, single- and double-spine arrangements using size-10 hooks, single-spine arrangements using larger size-6 or smaller size-18 hooks, and mixed-size arrangements. Where multiple spines are present, the hooks are predominantly positioned side by side to accommodate the limited module width. The measured wire diameters range from approximately 0.3\,mm for size-18 hooks to 0.8\,mm for size-6 hooks.
 
-Spine orientation also influences asperity engagement, as the direction of applied loading relative to the local surface geometry affects whether an individual spine can establish stable contact \cite{Asbeck2006IJRR}. In the present design, the curved hooks are mounted at a nominal angle of approximately $40^\circ$ relative to the module contact surface. This angle is defined by the printed spine recesses, providing a consistent nominal orientation across configurations. The selected angle is treated as a fixed design parameter rather than an experimentally established optimum.
-
-\subsubsection{Spine Thickness and Hook Size Selection}
-
-Hook sizes from 6 to 22 were evaluated in preliminary trials, 
-spanning wire diameters from approximately 1.2\,mm (size~6) to 
-0.35\,mm (size~22). Very large hooks (sizes 6--8, $d > 1.0$\,mm) 
-were found to be excessively rigid, preventing the compliant backing 
-from distributing load across multiple spines and resulting in 
-single-point overloading and early failure. Very small hooks 
-(sizes 18--22, $d < 0.45$\,mm) bent plastically under moderate 
-loads without engaging asperities, particularly on hard igneous 
-surfaces. The two configurations selected for systematic evaluation 
-represent the practical extremes of the effective range:
-
-\begin{itemize}
-    \item \textbf{Thick-spine configuration} (hook size~10, 
-    $d = 0.85$\,mm): intended for coarse-grained, high-asperity 
-    surfaces where larger spine tips can engage deep, mechanically 
-    stable features.
-    \item \textbf{Thin-spine configuration} (hook size~16, 
-    $d = 0.55$\,mm): intended for fine-grained or smoother surfaces 
-    where smaller tips are required to engage shallow asperities 
-    without overloading them.
-\end{itemize}
-
-The bending stiffness of a spine under transverse load scales with 
-the second moment of area of the wire cross-section:
+Spine diameter affects the bending rigidity and ability of individual hooks to accommodate local surface geometry. For a circular wire cross-section, the flexural rigidity is given by
 %
 \begin{equation}
-EI = E \cdot \frac{\pi d^4}{64}
+EI = E\frac{\pi d^4}{64},
 \end{equation}
 %
-For steel ($E = 200$\,GPa), the ratio of bending stiffness between 
-the thick and thin configurations is:
-%
-\begin{equation}
-\frac{EI_{10}}{EI_{16}} = \left(\frac{d_{10}}{d_{16}}\right)^4 = 
-\left(\frac{0.85}{0.55}\right)^4 \approx 5.7
-\end{equation}
-%
-The thick spine is therefore approximately 5.7$\times$ stiffer than 
-the thin spine, which explains the qualitatively different 
-engagement behaviour observed across rock types with different 
-asperity scales.
+where $E$ is Young's modulus and $d$ is the wire diameter. The measured wire diameters range from approximately 0.3\,mm for size-18 hooks to 0.8\,mm for size-6 hooks. Thus, larger hooks exhibit substantially greater wire bending rigidity, whereas smaller hooks may deform more readily under contact loading. The effective compliance of an embedded spine also depends on its geometry, unsupported length, and surrounding TPU structure.
 
-\subsubsection{Spine Density}
+The selection of spine geometry is also influenced by the characteristics of the target rock surface. Larger, thicker spines are expected to be advantageous on coarse-grained igneous rocks such as dolerite, where prominent, mechanically stable asperities can provide engagement points for larger hooks. Conversely, smaller spines may be better suited to smoother surfaces, such as rounded ignimbrite cobbles, where finer asperities may be inaccessible to larger spine tips. Fine-grained basalt presents a further challenge due to the limited availability of suitable surface asperities, potentially reducing engagement across spine sizes. For weaker, clast-rich ignimbrite, engagement may instead be limited by local rock fracture, requiring consideration of the forces transmitted through individual spines. These contrasting surface characteristics motivate the use of interchangeable modules with different spine sizes and arrangements.
 
-Two densities were evaluated per module: 4-spine and 2-spine 
-arrangements. The 4-spine configuration increases engagement 
-points per unit area, advantageous on surfaces with sparse 
-asperities; the 2-spine configuration reduces inter-spine 
-mechanical interference, allowing each spine greater freedom 
-to load an asperity independently. For a total preload $F_N$ 
-distributed over $N_s$ spines, the mean force per spine is 
-$f_n = F_N / N_s$: reducing $N_s$ improves engagement depth 
-on hard surfaces but raises the risk of overload or asperity 
-fracture on weaker materials such as pyroclastic rocks.
+The number and arrangement of spines also influence attachment. Increasing spine number provides more potential engagement points across a rough surface, while reducing the number may allow individual spines greater freedom to accommodate local asperities. However, actual load sharing depends on the spatial distribution of contacts, spine compliance, and surface geometry \cite{Jiang2018StochasticModels}. The interchangeable modules therefore permit changes in spine size, number, and distribution without modifying the underlying gripper architecture.
+
+Finally, spine orientation also influences asperity engagement, as the direction of applied loading relative to the local surface geometry affects whether an individual spine can establish stable contact \cite{Asbeck2006IJRR}. In the present design, the curved hooks are mounted at a nominal angle of approximately $40^\circ$ relative to the module contact surface. This angle is defined by the printed spine recesses, providing a consistent nominal orientation across configurations. The selected angle is treated as a fixed design parameter rather than an experimentally established optimum. The exposed lengths vary slightly with hook size, with approximately 1\,mm of the curved tip and 2\,mm of the trimmed shank protruding from the module.
 
 %The gripper architectures are intentionally modular, allowing the same compliant body to be tested with different spine arrays. This enables a direct comparison between microspine configurations while reducing confounding effects from large changes in the gripper body. The modular design also reflects a possible future mission implementation, where end-effectors could be selected or optimized according to the expected terrain or sampling target.
 
-\subsection{Fabrication}
 
-\subsubsection{Compliant Finger and Gripper Body}
+\subsubsection{Embedded-Print Fabrication and Assembly}
 
-The three gripper fingers and central hub were fabricated using 
-Fused Deposition Modelling (FDM) with TPU~95A filament on a 
-Prusa~i3~MK3S+ printer (layer height 0.2\,mm, gyroid infill 40\%, 
-3 perimeter walls, nozzle 230°C, bed 45°C, print speed 25\,mm/s). 
-Each finger is approximately 70\,mm in length, 35\,mm in width, 
-and 8\,mm in thickness, and incorporates a recessed cavity 
-($32 \times 22 \times 4$\,mm) on its contact face to accept the 
-interchangeable microspine modules by press-fit. The central hub 
-was printed in PLA (0.2\,mm layer height, 60\% infill) and 
-integrates the tendon routing channels, pulley seat, and whisker 
-sensor mount.
+The microspine modules were fabricated using fused
+filament fabrication on a Bambu Lab X1 Carbon printer with TPU~95A filament, a 0.4\,mm nozzle, 0.08\,mm layer height, and 15\% infill. The modules were printed on their sides to allow the fishing hooks to be inserted horizontally during fabrication.
 
-\subsubsection{Actuation: Reel, Pulley, and Tendon Routing}
+The print was paused at predefined layers corresponding to the insertion positions of the microspines. Before insertion, the hook eyes and portions of the shanks were removed. The hooks were then manually positioned in closely fitted recesses designed from their measured geometry. These recesses establish the nominal spine orientation without requiring an external positioning jig and keep the inserted hooks clear of the subsequent print-head path.
 
-Three Feetech HLS 2915M digital servo motors actuate all three fingers simultaneously 
-through a tendon system. The nylon tendons are each wound onto a PLA reel (diameter 35\,mm) 
-with a circumferential groove and redirected through a carbon fibre shaft (outer diameter 12\,mm). Three through-holes (diameter 2\,mm), one per finger, route the tendon along the 
-shaft, where it splits into three branches fixed to the distal 
-end of each finger. The motors are connected to a URT-2 bus communication board and controlled via the Arduino Teensy board. This board also allows the current readout from each digital motor to be read and separately controlled upon rock  contact.
+Printing was resumed after each insertion, encapsulating approximately 75\% of the hook within the TPU body, depending on the hook size. The surrounding material confines the embedded hook geometry, while the tip and a portion of the shank remain exposed. Following printing, the protruding shanks were trimmed to the required lengths, and the modules were visually inspected for hook alignment and printing defects.
 
-\subsubsection{Microspine Module Fabrication and Assembly}
+No support structures were required. A wide first-layer brim was incorporated to improve bed adhesion and reduce the risk of module displacement during manual hook insertion. Finally, two N42 neodymium magnets (5\,mm diameter, 2\,mm thickness) were inserted into the open side and base recesses of each module and secured using a strong adhesive. The magnets were oriented to attract their corresponding counterparts in the finger cavities.
 
-Microspine modules were fabricated through additive manufacturing using a Bambu X-1 Carbon. The spines were embedded by pausing the print at relevant times to insert the hook. After fabrication, the modules were inspected, trimmed, and 2x Grade 42 Neodymium Magnets (diameter 5\ mm, height 2\ mm) were press-fitted and attached through adhesive on the bottom and side.
 
-ATTACH PHOTO HERE OF MICROSPINE FABRICATION
+\subsection{Motor Mount and Assembly}
+
+The motor mount and tendon reels were fabricated
+from PLA (0.2\,mm layer height, 15\% infill) using a Bambu Lab X1 Carbon printer and houses the three Feetech HLS 2915M digital servo motors. Each motor drives a separate PLA reel (diameter 40\,mm). Nylon tendons are each wound onto this reel with a circumferential groove and redirected through a carbon fibre shaft (outer diameter 12\,mm). Three through-holes (diameter 2\,mm), one per finger, route the tendon along the shaft, where it splits into three branches fixed to the distal end of each finger. The motors are connected to a URT-2 bus communication board and controlled via the Arduino Teensy board. This board also allows the current readout from each digital motor to be read and separately controlled upon rock  contact.
+
 \subsection{Mars-Relevant Rock Analogues}
 
-Four rock analogues were selected from TU Delft's Planetary Analogue Rock Collection to span 
-the range of surface textures, asperity scales, and 
-mechanical properties relevant to Martian microspine 
-engagement (Table~I, Fig.~7). 
-Rather than reproducing a specific Martian site, the 
-selection covers both favorable surfaces for microspine 
-engagement --- coarse-grained igneous rocks with strong, 
-stable asperities --- and unfavorable ones --- smooth, 
-rounded, or fine-grained surfaces where engagement 
-probability is expected to be low. Each sample is 
-characterised by qualitative lithology, surface roughness, 
-asperity scale, hardness, and porosity, used to classify 
-rocks into interaction regimes and support the construction 
-of the terrain-compatibility framework in 
-Section~IV.
+Four natural rock specimens were selected to investigate microspine interaction with different surface geometries and textures. The specimens were geologically identified and comprise of dolerite, basalt, clast-rich ignimbrite, and a naturally rounded ignimbrite cobble (Table~\ref{tab:analogues}).
+
+The selection encompasses coarse- and fine-grained igneous surfaces, heterogeneous clast-rich textures, and smooth, convex geometries. Surface characteristics were assessed qualitatively from geological knowledge and visual inspection rather than quantitative roughness or hardness measurements.
+
+These specimens represent contrasting contact conditions relevant to planetary rock manipulation, rather than direct reproductions of specific Martian sites. Similar geological diversity has been observed during Mars exploration, including igneous and sedimentary materials in Jezero crater
+\cite{Farley2022JezeroIgneous,Mangold2021JezeroDelta}. The differences in surface geometry and asperity characteristics provide a basis for investigating the potential benefits of interchangeable microspine configurations as explored further in Section~IV.
 
 \begin{table}[t]
 \caption{Mars-relevant rock analogues and microspine interaction}
@@ -325,11 +258,10 @@ Grasping dominated by finger enveloping; microspine contribution limited \\
 \end{table}
 
 
-
 % As per comments, moved preliminary estimate into system concept. Unsure exactly where this is supposed to fit
 
 \subsection{Preliminary Static Force Estimates}
-
+\textcolor{red}{\textbf{I WILL MOST LIKELY REMOVE THIS}}
 Direct measurement of static shear and pull-off forces in microspine-rock interaction is experimentally challenging: engagement forces vary significantly between trials due to the stochastic nature of asperity contact, and decoupling shear from normal components requires instrumentation not available at this stage. We therefore derive preliminary estimates by combining actuation system parameters with sustained payload measurements, and back-calculate $P_{eng}$ and $\bar{f}_{spine}$ across configurations and 
 rock types.
 
@@ -409,7 +341,16 @@ of this work.
 \section{Experimental Results}
 
 \subsection{Modular Interface Characterisation}
-- Provide experimental results potentially alongside figures. Back these up with some theoretical estimate from calculation. Maybe have a photo if there is space
+
+The retention of the magnetic modules was assessed
+under nominally normal pull-off and tangential shear loading conditions until detachment from the finger cavity. The gripper was securely fixed, and an external load was applied exclusively to the selected module. The indicated load at the point of detachment was then recorded for each loading condition.
+
+Each loading condition was repeated ten times at two different mounting locations for both the front and rear module geometries, resulting in 80 trials. Detachment generally occurred at an indicated load of approximately 300\,gf (2.9\,N), with normal pull-off tending to occur slightly below this value and tangential shear loading slightly above it. Detachment was typically initiated through peeling at one edge with similar behaviour observed across the tested module locations.
+
+These measurements characterise the retention of individual magnetic module-to-finger interfaces,
+rather than the overall microspine grasping capacity as not all of the modules will necessarily engage the rock simultaneously. Furthermore, the loading direction and force distribution between the modules depend on the object geometry and contact conditions. Consequently, the individual detachment forces cannot be directly summed to estimate the maximum grasping force.
+
+An additional characteristic of the magnetic interface is its potential to permit limited module displacement before complete detachment. This may allow passive redistribution of contact forces between neighbouring modules, while magnetic attraction could facilitate re-seating of partially displaced modules when the load is reduced. However, these mechanisms have not yet been experimentally characterised.
 
 
 \subsection{Grasping Tests}
