@@ -31,7 +31,7 @@
 
 
 \title{\LARGE \bf
-Reconfigurable Microspine-Enhanced Soft Grippers\\for Extraterrestrial and Martian Rock Grasping}
+Reconfigurable Microspine-Enhanced Soft Grippers\\for Extraterrestrial Rock Grasping}
 
 %\author{,  and Salua Hamaza
 \author{Josh van't Sant$^{1}$, Fernando Ruiz$^{1}$, Sebastiaan de Vet$^{2}$ and Salua Hamaza$^{1}$
@@ -46,9 +46,9 @@ Reconfigurable Microspine-Enhanced Soft Grippers\\for Extraterrestrial and Marti
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-Future planetary exploration platforms could extend the reach of Mars missions by accessing steep, fragmented, or otherwise unreachable terrains, but robust physical interaction with natural surfaces remains a key limitation for sample acquisition and safe touchdown. This paper presents a soft robotic gripper with modular, magnetic snap-fit soft microspine modules as a reconfigurable add-on end-effector compatible with aerial, rover-mounted, and legged platforms. The soft compliant backing of each module simultaneously improves distributed contact with rock asperities and enables tool-free swap of spine morphology, supporting both opportunistic rock grasping and terrain-adaptive landing from a single compliant structure. We experimentally evaluate multiple configurations — varying spine thickness, number, and spatial distribution — through qualitative grasping trials, grasp success rate, and static shear and pull-off force measurements across four Mars-relevant rock analogues. Results show that thick-spine configurations provide superior engagement on coarse-grained, high-asperity surfaces, while thin-spine configurations achieve higher success rates on fine-grained or smoother rocks. These relationships are used to propose a terrain-compatibility framework linking microspine morphology to Martian geological context, providing design guidelines for end-effectors reconfigurable to match surface conditions at a target exploration site.
+Future planetary exploration platforms could extend the reach of Mars missions by accessing steep, fragmented, or otherwise unreachable terrains, but robust physical interaction with natural surfaces remains a key limitation for sample acquisition and safe touchdown. This paper presents a soft robotic gripper with modular, magnetic snap-fit soft microspine modules as a reconfigurable add-on end-effector compatible with aerial, rover-mounted, and legged platforms. The soft compliant backing of each module simultaneously improves distributed contact with rock asperities and enables rapid reconfiguration of spine morphology, supporting opportunistic and adaptable grasping capabilities. We experimentally evaluate multiple configurations, varying spine thickness, number, and spatial distribution through qualitative grasping trials, grasp success rate, and static shear and pull-off force measurements across four Mars-relevant rock analogues. Results show that thick-spine configurations provide superior engagement on coarse-grained, high-asperity surfaces, while thin-spine configurations achieve higher success rates on fine-grained or smoother rocks. These relationships are used to propose a terrain-compatibility framework linking microspine morphology to Martian geological context, providing practical recommendations for end-effectors reconfigurable to match surface conditions at a target exploration site.
 
-\textit{Index Terms:} Microspines, Soft Robotics, Planetary Robotics, Mars Exploration, Rock Grasping, Reconfigurability.
+\textit{Index Terms:} Microspines, Soft Robotics, Planetary Robotics, Rock Grasping, Reconfigurability.
 \end{abstract}
 
 
@@ -68,7 +68,7 @@ The diversity and uncertainty of Martian terrain introduce further challenges fo
 \vspace{-3mm}
 \end{figure}
 
-Microspine-based attachment offers a promising strategy for such interactions. Microspines are small hook-like elements that engage with surface asperities and generate mechanical interlocking rather than relying on suction, magnetic adhesion, or chemical adhesives. This makes them attractive for dusty, porous, rocky, or irregular environments where conventional attachment methods are ineffective. Previous work has shown that compliant arrays of microspines can support climbing and attachment on hard rough surfaces by distributing loads over multiple individual contacts \cite{Asbeck2006IJRR,Kim2005SpinybotII,Spenko2008RiSE}. The same principle has also been explored for space-relevant anchoring, gravity-independent mobility, asteroid capture, and deep-ocean geological sampling \cite{Parness2012Microspines,Parness2013RockClimbing,Merriam2016AsteroidCapture,Parness2017ARM,Backus2020Nautilus}.
+Microspine-based attachment offers a promising strategy for such interactions. Microspines are small hook-like elements that engage with surface asperities and generate mechanical interlocking rather than relying on suction, magnetic adhesion, or chemical adhesives. This makes them attractive for dusty, porous, rocky, or irregular environments where conventional attachment methods are ineffective. Previous work has shown that compliant arrays of microspines can support climbing and attachment on hard rough surfaces by distributing loads over multiple individual contacts \cite{Asbeck2006IJRR,Kim2005SpinybotII,Spenko2008RiSE}. The same principle has also been explored for space-relevant anchoring, gravity-independent mobility, asteroid capture, and deep-ocean geological sampling \cite{Parness2013RockClimbing,Merriam2016AsteroidCapture,Parness2017ARM,Backus2020Nautilus}.
 
 Soft robotic grippers provide complementary advantages for uncertain natural environments. Their compliance allows them to conform passively to irregular objects, distribute contact forces, and tolerate positioning errors during grasping \cite{Rus2015SoftRobotics,Shintake2018SoftGrippers}. These properties are particularly relevant for planetary manipulation, where rocks may vary widely in shape, size, roughness, and fragility. However, purely soft or friction-based grippers may struggle to generate sufficient attachment forces on hard, angular, dusty, or poorly envelopable rocks. Combining compliant gripper bodies with microspine arrays is therefore an attractive hybrid approach: the soft structure adapts to uncertain rock geometry, while the microspines provide local mechanical engagement with asperities. 
 
@@ -179,7 +179,7 @@ Microspine engagement on rough surfaces is inherently probabilistic, depending o
 The interchangeable contact modules are manufactured
 from TPU~95A and incorporate embedded steel microspines formed from commercially available fishing hooks (Gamakatsu G-Code F314). The front two  modules are mirrored and measure approximately 9x7x15\,mm, while the rear two modules are also mirrored and measure approximately 13x7x16\,mm. Within each mounting location, the external module geometry and magnetic interface remain unchanged  to allow for easy modularity between spine configurations.
 
-Several configurations were then fabricated to demonstrate interchangeability and explore variations in contact morphology. These include modules without spines, single- and double-spine arrangements using size-10 hooks, single-spine arrangements using larger size-6 or smaller size-18 hooks, and mixed-size arrangements. Where multiple spines are present, the hooks are predominantly positioned side by side to accommodate the limited module width. The measured wire diameters range from approximately 0.3\,mm for size-18 hooks to 0.8\,mm for size-6 hooks.
+Several configurations were then fabricated to demonstrate interchangeability and explore variations in contact morphology. These include modules without spines, single- and double-spine arrangements using size-10 hooks, single-spine arrangements in a variety of sizes from 6 through to 16, and mixed-size arrangements. Where multiple spines are present, the hooks are predominantly positioned side by side to accommodate the limited module width. The measured wire diameters range from approximately 0.3\,mm for size-16 hooks to 0.8\,mm for size-6 hooks.
 
 
 The selection of spine geometry is also influenced by the characteristics of the target rock surface. Larger, thicker spines are expected to be advantageous on coarse-grained igneous rocks such as dolerite, where prominent, mechanically stable asperities can provide engagement points for larger hooks. Conversely, smaller spines may be better suited to smoother surfaces, such as rounded ignimbrite cobbles, where finer asperities may be inaccessible to larger spine tips. Fine-grained basalt presents a further challenge due to the limited availability of suitable surface asperities, potentially reducing engagement across spine sizes. For weaker, clast-rich ignimbrite, engagement may instead be limited by local rock fracture, requiring consideration of the forces transmitted through individual spines. These contrasting surface characteristics motivate the use of interchangeable modules with different spine sizes and arrangements.
@@ -317,8 +317,7 @@ An additional characteristic of the magnetic interface is its potential to permi
 \subsection{Grasping Tests}
 \subsubsection{Grasping Tests on Controlled Objects}
 
-To first establish a clear quantitative benchmark between the surface of the rocks versus the shapes, the grasping capability of the gripper was evaluated using three objects: a smooth sphere, a coarse-textured sphere, and a rough polyhedron. Three interchangeable module configurations were investigated, incorporating zero, one, or two microspines per module. Each combination
-was evaluated over five trials using similar conditions, with the indicated load at grasp failure recorded.
+To quantify the influence of microspines on grasp retention, three objects were evaluated: a smooth sphere, a coarse-textured sphere, and a rough polyhedron. The two spheres were identical apart from their surface finish, while the polyhedron had a similar size and mass but different geometry. Each object was grasped from above and the gripper pulled upward manually at a steady rate, until loading failure generally by slippage. Three module configurations, incorporating zero, one, or two microspines (size 10) per module, were each evaluated over five trials.
 
 \begin{table}[t]
 \caption{Force required for grip failure (gf), mean $\pm$ SD (sample SD, $n=5$ grasps per condition).}
@@ -336,17 +335,11 @@ Polyhedron    & $1010 \pm 182$ & $2076 \pm 278$ & $2658 \pm 1015^{\dagger}$ \\
 \end{tabular}
 \end{table}
 
-As shown in Tab.~\ref{tab:spine_force}, the microspine configurations exhibited different retention characteristics across the test objects. For the smooth sphere, the mean indicated load increased from 1.96\,N without spines to 3.42\,N and 3.14\,N for the single- and double-spine configurations, respectively.
+As shown in Table~\ref{tab:spine_force}, the addition of microspines increased the mean indicated failure load across all three objects. For the smooth sphere, the load increased from 200\,gf without spines to 349\,gf and 320\,gf with one and two spines, respectively. A more pronounced improvement was observed on the coarse-textured sphere, increasing from 253\,gf to 832\,gf and 1040\,gf. Intermittent load peaks were also observed during apparent microspine engagement with the coarse surface.
 
-The effect was more pronounced on the coarse-textured sphere, for which the mean load increased from 2.48\,N without spines to 8.16\,N with one spine and 10.20\,N with two spines per module. Variation between trials was observed, consistent with differences in the local surface features encountered during contact. 
+The highest retention loads were recorded on the polyhedron, increasing from 1010\,gf without spines to 2076\,gf and 2658\,gf with one and two spines. Most trials terminated through slipping, although two of the five polyhedron trials with two spines ended in magnetic module detachment, contributing to the larger observed variation.
 
-The highest loads were recorded on the polyhedron, reaching mean values of 9.90\,N, 20.36\,N, and 26.07\,N for the zero-, one-, and two-spine configurations, respectively. In the two-spine configuration, two of the five trials terminated through magnetic module detachment at approximately 14.7--15.7\,N, whereas the remaining three trials reached 32.1--34.3\,N. 
-
-Several observations can be made from these tests. First that the surface finish of the objects grasped has a large  tests These failures indicate that while the shape of an object can provide the best gripping force, there is also a chance that the shape will load to failure one of the magnetic interfaces on the modules. Although the results demonstrate an increase in retention with the addition of microspines for the coarse sphere
-and polyhedron, the small sample size
-and variations in local engagement
-limit broader conclusions regarding
-optimal spine configurations.
+These results demonstrate improved grasp retention with the addition of microspines, particularly on the coarse-textured sphere and polyhedron. However, as these tests used only size-10 hooks, the influence of spine size on different surface textures was not yet explored. The following section therefore extends this investigation to natural rock specimens, and compares thick, thin, and mixed-size microspine configurations across different surface conditions.
 
 \subsubsection{Grasping Tests on Natural Rocks} 
 
@@ -361,7 +354,7 @@ Grasping performance was evaluated using the four natural rock specimens describ
 \end{figure}
 
 
-Four configurations were investigated: thin spines (size~16), thick spines (size~10), no spines, and a mixed size-10/16 arrangement. Each configuration was tested ten times on each rock specimen, with the observed grasp success rates presented in Table~\ref{tab:grasping}.
+The controlled-object tests showed the largest mean grasp retention with a two-spine configuration motivating their use for the natural grasp tests. Four configurations were therefore investigated: two size-16 hooks (thin), two size-10 hooks (thick), one hook of each size (mixed), and a baseline without spines. Each configuration was tested ten times on each rock specimen, with the observed grasp success rates presented in Table~\ref{tab:grasping}.
 
 \vspace{-3mm}
 \begin{table}[h]
@@ -397,42 +390,13 @@ As noted in Figure \ref{figure7_grasping_experiment}, the tested rock specimens 
 
 
 \subsection{Terrain Compatibility Framework}
-The grasping results and preliminary force estimates allow 
-a first terrain-compatibility mapping between microspine 
-configuration and Martian geological context 
-(Fig.~7). The key finding is that no single 
-spine configuration performs optimally across all rock types, 
-which directly motivates the reconfigurable modular design 
-proposed in this work.
 
-Thick spines (size~10) are best suited for coarse-grained, 
-high-asperity surfaces such as dolerite, representative of 
-exhumed intrusive units at S\'e\'itah/Jezero, Valles 
-Marineris, and Nili Fossae. Thin spines (size~16) are 
-preferable on smooth convex surfaces such as ignimbrite 
-rounded cobbles, confirmed at Gale and Jezero's western 
-delta --- high-priority targets for Mars Sample Return. 
-On ignimbrite clast-rich surfaces, inferred at Medusae 
-Fossae and the highland paterae, all spine configurations 
-achieve reliable engagement, but payload is limited by 
-matrix fracture rather than spine morphology, suggesting 
-that preload control is more critical than spine selection 
-in this regime. Basalt, the globally dominant lithology 
-across Tharsis, Elysium, and Syrtis Major, remains the 
-most challenging surface for all configurations tested, 
-with the mixed (10+16) configuration offering the best 
-compromise.
+The grasping trials demonstrate that microspine size influences performance across different surface conditions. Size-10 hooks outperformed size-16 hooks on coarse-grained dolerite, whereas size-16 hooks performed better on the smoother, rounded ignimbrite cobble. The mixed-size configuration achieved high success rates across several specimens, suggesting a useful option when surface conditions are uncertain.
 
-The mixed configuration emerges as the most robust 
-default for unknown terrain, combining the engagement 
-range of both spine sizes at the cost of reduced peak 
-performance on specialised surfaces. These results 
-suggest that a two-module system --- thick for igneous 
-outcrops, thin for fluvial or smooth surfaces --- would 
-cover the majority of Martian geological scenarios 
-identified in Fig.~7, with the mixed 
-configuration as a fallback when surface type cannot 
-be determined in advance.
+These differences motivate reconfigurable contact modules rather than a fixed spine morphology, particularly for heterogeneous Martian terrain, including igneous outcrops and rounded clasts such as those observed in Jezero crater \cite{Farley2022JezeroIgneous,Mangold2021JezeroDelta}.
+
+Modularity also enables replacement of worn or dulled microspines without replacing the gripper. Dust and regolith may further affect microspine engagement, providing additional motivation for interchangeable contact modules. However, the effects of particulate contamination and long-term wear remain to be experimentally characterised.
+
 
 \section{Conclusions}
 
@@ -441,14 +405,6 @@ This paper presented a compliant soft robotic gripper incorporating interchangea
 Preliminary grasping experiments across four Mars-relevant rock analogues demonstrated variations in grasping performance between microspine configurations, highlighting the influence of surface characteristics on mechanical engagement. The modular interface was additionally characterised through normal pull-off and shear detachment measurements of approximately 2.94 N, providing an initial assessment of module retention.
 
 Future work will investigate individual motor-current calibration for more precise grasp-force regulation, automated module exchange, and validation under Mars-relevant environmental conditions, including dust and reduced gravity.
-
-\begin{figure}
-\centering
-\includegraphics[width=.99\linewidth]{Picture3.jpg}
-\caption{Martian occurrences of the four rock analogues on the MOLA topographic map (NASA/GSFC): dolerite (red triangle), basalt (yellow pentagon), ignimbrite clast-rich (green circle), ignimbrite rounded cobbles (blue square). Inset: experimental rock samples. Ignimbrite occurrences inferred from orbital data; all others confirmed in situ (Perseverance, Curiosity, Spirit).}
-\label{figure5}
-\vspace{-5mm}
-\end{figure}
 
 
 \bibliographystyle{IEEEtran}
