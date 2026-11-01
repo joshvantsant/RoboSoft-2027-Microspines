@@ -100,7 +100,7 @@ These studies demonstrate the potential of microspine attachment for geological 
 
 \begin{figure*}
 \centering
-\includegraphics[width=.9\linewidth]{Picture7.png}
+\includegraphics[width=.8\linewidth]{Picture7.png}
 \caption{Representative microspine-based systems from the literature, illustrating the breadth of applications: deep-ocean geological sampling (JPL Nautilus gripper~\cite{Backus2020Nautilus}), rough-surface climbing (RiSE climbing robot~\cite{Spenko2008RiSE} and SpinyBot II~\cite{Kim2005SpinybotII}), tree-climbing and compliant array attachment~\cite{compliant_microspine_arrays}, low-gravity anchoring and mobility (JPL microspine grippers and gravity-independent climbing robot~\cite{Parness2013RockClimbing}), asteroid capture~\cite{Merriam2016AsteroidCapture}, self-locking attachment on vertical surfaces~\cite{Panorel02112025}, and soft gripping for space exploration legged robots \cite{candalot2024}. Despite their diversity of application, all existing systems share a common limitation: microspine morphology --- including spine thickness, density, and distribution --- is fixed at design time and cannot be reconfigured for different surface types or operational scenarios. This constrains their adaptability to the geological variability expected in Martian exploration, where a single platform may encounter basaltic outcrops, coarse-grained igneous rocks, pyroclastic deposits, and fluvially rounded cobbles within the same mission.}
 \label{figure2}
 \vspace{-3mm}
@@ -123,25 +123,10 @@ The proposed system is a tendon-actuated soft robotic end-effector equipped with
 
 \begin{figure}
 \centering
-\includegraphics[width=\linewidth]{Picture5.png}
-\caption{Tendon-actuated soft gripper system. Left: CAD model showing the servomotor-driven reel, pulley system, tendon routing, and integrated whisker sensor. Right: experimental setup showing the carbon fibre rod, bearing, electronics, and holder for static force experiments, with Mars analogue rocks.}
+\includegraphics[width=\linewidth]{Fig3_CAD.png}
+\caption{Overview of the modular tendon-actuated soft gripper. (a) CAD model showing the three-finger compliant structure, servo-driven tendon reels, carbon-fibre support, and magnetically interchangeable microspine modules. (b) Fabricated prototype demonstrating rock grasping in an outdoor environment, with integrated microspines and force-sensing resistor wiring visible.}
 \label{figure3}
 \vspace{-3mm}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{Picture4.png}
-\caption{Fabricated gripper prototype with three modular finger sections. Each section accepts a press-fit silicone module embedding variable-thickness microspine arrays, enabling tool-free spine configuration swap without replacing the compliant TPU structure.}
-\label{figure4}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{Picture2.png}
-\caption{Microspine module fabrication. (top) Two-part PLA mold: lower half defines the silicone cavity and spine channels; upper half uses moldable putty to fix hooks at $\alpha=28$° prior to Ecoflex~0030 casting. (bottom) Fabricated modules press-fitted into the TPU finger, showing the silicone layer and two spine configurations: hook size~10 (0.85\,mm, thick-spine) and hook size~16 (0.55\,mm, thin-spine), both in a 4-spine arrangement.}
-\label{figure5}
-\vspace{-5mm}
 \end{figure}
 
 \subsection{Compliant Gripper Architecture}
@@ -153,6 +138,14 @@ The gripper comprises a single compliant body with three fingers arranged at 120
 Each finger incorporates four recessed mounting cavities, comprising two smaller front cavities and two larger rear cavities. The interchangeable microspine modules sit flush with the finger surface and are retained by two pairs of permanent N42 neodymium magnets, located along the side and base of each cavity. Each module contains two magnets of diameter 5\,mm and thickness 2\,mm. The corresponding finger magnets measure 5 $\times$ 2\,mm at the side and 10 $\times$ 2\,mm at the base, resulting in 24 embedded magnets across the three fingers.
 
 The magnets are secured into closely fitted recesses with a strong adhesive. The cavity geometry provides repeatable positioning, while magnetic attraction retains the modules without mechanical latches. Modules can be removed manually by pulling or peeling from an edge, enabling tool-free replacement without modifying the compliant finger or actuation system.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Fig_4_modules.png}
+\caption{Reconfigurable soft robotic gripper with interchangeable microspine modules. (a) Three-finger compliant gripper incorporating modular contact interfaces. (b) Close-up of the removal of an individual module, showing the mounting arrangement and integrated force-sensitive resistor (FSR).}
+\label{figure4}
+\vspace{-3mm}
+\end{figure}
 
 \subsubsection{Actuation and Tendon Routing}
 
@@ -193,6 +186,14 @@ Finally, spine orientation also influences asperity engagement, as the direction
 
 \subsubsection{Embedded-Print Fabrication and Assembly}
 
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth]{Fig_5_Module_Fabrication.png}
+\caption{Fabrication and configuration of the interchangeable microspine modules. (a) During fabrication, printing is paused to manually insert a hook into the designed recess, after which printing resumes to retain the hook within the module body. (b) Representative interchangeable module variants produced using this method. (c) Gripper fitted with the single-hook module set using size-10 hooks. (d) Gripper fitted with the two-hook module set using size-10 hooks.}
+\label{figure5}
+\vspace{-5mm}
+\end{figure}
+
 The microspine modules were fabricated using fused
 filament fabrication on a Bambu Lab X1 Carbon printer with TPU~95A filament, a 0.4\,mm nozzle, 0.08\,mm layer height, and 15\% infill. The modules were printed on their sides to allow the fishing hooks to be inserted horizontally during fabrication.
 
@@ -210,15 +211,13 @@ from PLA (0.2\,mm layer height, 15\% infill) using a Bambu Lab X1 Carbon printer
 
 \subsection{Mars-Relevant Rock Analogues}
 
-Four natural rock specimens were selected to investigate microspine interaction with different surface geometries and textures. The specimens were geologically identified and comprise of dolerite, basalt, clast-rich ignimbrite, and a naturally rounded ignimbrite cobble (Table~\ref{tab:analogues}).
+Four natural rock specimens were selected to investigate microspine interaction across different surface geometries and textures: dolerite, basalt, clast-rich ignimbrite, and a naturally rounded ignimbrite cobble. These specimens encompass coarse- and fine-grained igneous surfaces, heterogeneous textures, and smooth, convex geometries. Surface characteristics were assessed qualitatively through geological identification and visual inspection rather than quantitative roughness or hardness measurements.
 
-The selection encompasses coarse- and fine-grained igneous surfaces, heterogeneous clast-rich textures, and smooth, convex geometries. Surface characteristics were assessed qualitatively from geological knowledge and visual inspection rather than quantitative roughness or hardness measurements.
+Table~\ref{tab:analogues} presents the specimens alongside relevant Martian geological analogues and the microspine configurations expected to favour engagement based on surface characteristics. These proposed matches provide a qualitative basis for comparison with the grasping experiments in Section~IV.B.
 
-These specimens represent contrasting contact conditions relevant to planetary rock manipulation, rather than direct reproductions of specific Martian sites. Similar geological diversity has been observed during Mars exploration, including igneous and sedimentary materials in Jezero crater
-\cite{Farley2022JezeroIgneous,Mangold2021JezeroDelta}. The differences in surface geometry and asperity characteristics provide a basis for investigating the potential benefits of interchangeable microspine configurations as explored further in Section~IV.
 
 \begin{table}[t]
-\caption{Mars-relevant rock analogues and microspine interaction}
+\caption{Mars-relevant rock analogues and expected microspine engagement}
 \label{tab:analogues}
 \centering
 \footnotesize
@@ -226,29 +225,45 @@ These specimens represent contrasting contact conditions relevant to planetary r
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{p{1.8cm} p{2.8cm} p{3.2cm}}
 \hline
-\textbf{Sample} & \textbf{Martian occurrence} & \textbf{Microspine relevance} \\
+\textbf{Sample and Martian occurrence} &
+\textbf{Surface characteristics} &
+\textbf{Expected microspine match} \\
 \hline
-Dolerite \newline {\scriptsize phaneritic, hard, stable asperities} &
-S\'e\'itah/Jezero~\cite{Farley2022JezeroIgneous}; Valles Marineris; Nili Fossae &
-Favorable for thick spines; high engagement probability; low fracture risk \\
 
-Basalt \newline {\scriptsize aphanitic, very hard, smooth } &
-Gusev~\cite{Squyres2004Spirit}; Syrtis Major; Tharsis; Elysium &
-Poor thick-spine engagement on fresh faces; thin spines required\\
+Dolerite \newline
+{\scriptsize S\'e\'itah/Jezero~\cite{Farley2022JezeroIgneous};
+Valles Marineris; Nili Fossae} &
+Phaneritic and coarse grained with prominent, stable asperities &
+Thick spines (size 10 or lower), capable of engaging larger asperities \\
 
-Ignimbrite \newline (clast-rich) \newline {\scriptsize heterogeneous hardness, friable } &
-Medusae Fossae†~\cite{Mandt2008MFF}; Apollinaris Mons; Hadriacus/Tyrrhenus paterae &
-High success rate but low payload; matrix fracture dominant failure mode \\
+Basalt \newline
+{\scriptsize Gusev~\cite{Squyres2004Spirit};
+Syrtis Major; Tharsis; Elysium} &
+Aphanitic, fine-grained, hard, with relatively smooth surfaces &
+Thin spines (size 16), potentially engaging finer asperities,
+although limited engagement is expected \\
 
-Ignimbrite \newline (cobble) \newline {\scriptsize fluvially rounded, smooth, convex} &
-Gale/Hottah~\cite{Williams2013Hottah}; Jezero delta~\cite{Mangold2021JezeroDelta} &
-Grasping dominated by finger enveloping; microspine contribution limited \\
+Ignimbrite (clast-rich) \newline
+{\scriptsize Medusae Fossae$^\dagger$~\cite{Mandt2008MFF};
+Apollinaris Mons; Hadriacus/Tyrrhenus paterae} &
+Heterogeneous, clast-rich texture with variable asperity sizes and
+potentially friable surfaces &
+Mixed-size spines (size 10+16), accommodating a wider range
+of asperity sizes \\
+
+Ignimbrite (cobble) \newline
+{\scriptsize Gale/Hottah~\cite{Williams2013Hottah};
+Jezero delta~\cite{Mangold2021JezeroDelta}} &
+Fluvially rounded, smooth, convex geometry with limited prominent asperities &
+Thin spines (size 16), potentially engaging smaller surface asperities \\
+
 \hline
-\multicolumn{3}{l}{\scriptsize †Inferred from orbital data; not confirmed in situ.} \\
+\multicolumn{3}{l}{\scriptsize $^\dagger$Inferred from orbital data; not confirmed in situ.} \\
 \hline
 \end{tabular}
 \vspace{-3mm}
 \end{table}
+
 
 
 % As per comments, moved preliminary estimate into system concept. Unsure exactly where this is supposed to fit
@@ -356,7 +371,6 @@ Grasping performance was evaluated using the four natural rock specimens describ
 
 The controlled-object tests showed the largest mean grasp retention with a two-spine configuration motivating their use for the natural grasp tests. Four configurations were therefore investigated: two size-16 hooks (thin), two size-10 hooks (thick), one hook of each size (mixed), and a baseline without spines. Each configuration was tested ten times on each rock specimen, with the observed grasp success rates presented in Table~\ref{tab:grasping}.
 
-\vspace{-3mm}
 \begin{table}[h]
 \caption{Observed grasp success rate (\%) per configuration and rock analogue.}
 \label{tab:grasping}
@@ -391,18 +405,18 @@ As noted in Figure \ref{figure7_grasping_experiment}, the tested rock specimens 
 
 \subsection{Terrain Compatibility Framework}
 
-The grasping trials demonstrate that microspine size influences performance across different surface conditions. Size-10 hooks outperformed size-16 hooks on coarse-grained dolerite, whereas size-16 hooks performed better on the smoother, rounded ignimbrite cobble. The mixed-size configuration achieved high success rates across several specimens, suggesting a useful option when surface conditions are uncertain.
+The grasping trials demonstrate that microspine size influences performance across different surface conditions and correlate well with the expected performance determined in Table \ref{tab:analogues}. Size-10 hooks outperformed size-16 hooks on coarse-grained dolerite, whereas size-16 hooks performed better on the smoother, rounded ignimbrite cobble. However, the mixed configuration achieved the highest success rate on the latter, and thick spines performed best on basalt despite the anticipated advantage of smaller hooks on fine-grained surfaces.
 
-These differences motivate reconfigurable contact modules rather than a fixed spine morphology, particularly for heterogeneous Martian terrain, including igneous outcrops and rounded clasts such as those observed in Jezero crater \cite{Farley2022JezeroIgneous,Mangold2021JezeroDelta}.
+These differences highlight the limitations of predicting microspine engagement from qualitative surface characteristics alone. The ability to exchange spine configurations therefore offers a practical advantage for heterogeneous Martian terrain, including igneous outcrops and rounded clasts such as those observed in Jezero crater \cite{Farley2022JezeroIgneous,Mangold2021JezeroDelta}.
 
 Modularity also enables replacement of worn or dulled microspines without replacing the gripper. Dust and regolith may further affect microspine engagement, providing additional motivation for interchangeable contact modules. However, the effects of particulate contamination and long-term wear remain to be experimentally characterised.
 
 
 \section{Conclusions}
 
-This paper presented a compliant soft robotic gripper incorporating interchangeable microspine modules for extraterrestrial rock grasping. The magnetic attachment interface enables tool-free reconfiguration of spine geometry and distribution without modifying the underlying gripper structure. This provides a means of adapting the contact interface to different surface conditions and replacing worn or damaged microspines.
+This paper presented a compliant soft robotic gripper incorporating interchangeable microspine modules for extraterrestrial rock grasping. The magnetic attachment interface enables rapid reconfiguration of spine geometry and distribution without modifying the underlying gripper structure. This provides a means of adapting the contact interface to different surface conditions and replacing worn or damaged microspines.
 
-Preliminary grasping experiments across four Mars-relevant rock analogues demonstrated variations in grasping performance between microspine configurations, highlighting the influence of surface characteristics on mechanical engagement. The modular interface was additionally characterised through normal pull-off and shear detachment measurements of approximately 2.94 N, providing an initial assessment of module retention.
+Preliminary grasping experiments across controlled objects and four Mars-relevant rock analogues demonstrated variations in grasping performance between microspine configurations, highlighting the influence of surface characteristics on mechanical engagement. The modular interface was additionally characterised through normal pull-off and shear detachment measurements of approximately 2.94 N, providing an initial assessment of module retention.
 
 Future work will investigate individual motor-current calibration for more precise grasp-force regulation, automated module exchange, and validation under Mars-relevant environmental conditions, including dust and reduced gravity.
 
